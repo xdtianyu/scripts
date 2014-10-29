@@ -59,7 +59,7 @@ x2jpg(){
     read -u6 
     {
         echo 'convert -quality 80' "$file" /tmp/jpg/"${file%.*}"'.jpg'
-        convert -quality 80 "$file" /tmp/jpg/"${file%.*}".jpg
+        convert -limit memory 64 -limit map 128 -quality 80 "$file" /tmp/jpg/"${file%.*}".jpg
         mv "$file" origin
         echo >&6
     } &
