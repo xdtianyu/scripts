@@ -1,10 +1,10 @@
 #!/bin/bash
-#title           :z2t
+#title           :r2t
 #description     :This script will convert all rars(of jpg/bmp/png) with any content struct to tars(of jpg). Use "convert" command to convert images to jpg to depress disk space. the origin file's content struct will not change.
 #author          :xdtianyu@gmail.com
 #date            :20141029
 #version         :1.0 final
-#usage           :bash z2t
+#usage           :bash r2t
 #bash_version    :4.3.11(1)-release
 #==============================================================================
 
@@ -79,8 +79,10 @@ for file in *.rar ; do
 	tmpdir=$(mktemp -d)
 	DIR="${file%%.rar*}"
 	echo "unrar x $file $tmpdir";
-	unrar x "$file" $tmpdir # unrar to a tmp directory.
-	
+	mv "$file" tmp.rar
+	unrar x tmp.rar $tmpdir # unrar to a tmp directory.
+	mv tmp.rar "$file"
+
 	if [ $(ls $tmpdir | wc -l) = 1 ]; then # check if has folders, and mv the unrared directory as same name with the rar file.
 		DIR2=$(ls $tmpdir)
 		mv "$tmpdir/$DIR2" "$DIR"
