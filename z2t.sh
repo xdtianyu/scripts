@@ -1,5 +1,5 @@
 #!/bin/bash
-#title           :z2t.sh
+#title           :z2t
 #description     :This script will convert all zips(of jpg/bmp/png) with any content struct to tars(of jpg). Use "convert" command to convert images to jpg to depress disk space. the origin file's content struct will not change.
 #author          :xdtianyu@gmail.com
 #date            :20141029
@@ -7,6 +7,24 @@
 #usage           :bash z2t
 #bash_version    :4.3.11(1)-release
 #==============================================================================
+
+if [ $1 = "-c" ]; then 
+	echo "cleaning..."
+	cd tars
+	for file in *.tar; do
+	    ZIP="${file%%.tar*}.zip"
+	    echo "check \"$ZIP\" ..."
+	    if [ -f "../$ZIP" ];then
+		echo "delete $ZIP ..."
+		rm -i "../$ZIP"
+	    else
+		echo "$ZIP not exist."
+	    fi
+	done
+	cd ..
+	rm -ri tars
+	exit 0
+fi
 
 check_sub(){
 	echo "check sub."
