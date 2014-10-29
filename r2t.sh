@@ -8,6 +8,24 @@
 #bash_version    :4.3.11(1)-release
 #==============================================================================
 
+if [ $1 = "-c" ]; then 
+	echo "cleaning..."
+	cd tars
+	for file in *.tar; do
+	    RAR="${file%%.tar*}.rar"
+	    echo "check \"$RAR\" ..."
+	    if [ -f "../$RAR" ];then
+		echo "delete $RAR ..."
+		rm -i "../$RAR"
+	    else
+		echo "$RAR not exist."
+	    fi
+	done
+	cd ..
+	rm -ri tars
+	exit 0
+fi
+
 check_sub(){
 	echo "check sub."
     SAVEIFS=$IFS # setup this case the space char in file name.
