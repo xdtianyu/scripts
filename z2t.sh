@@ -8,22 +8,25 @@
 #bash_version    :4.3.11(1)-release
 #==============================================================================
 
-if [ $1 = "-c" ]; then 
-	echo "cleaning..."
-	cd tars
-	for file in *.tar; do
-	    ZIP="${file%%.tar*}.zip"
-	    echo "check \"$ZIP\" ..."
-	    if [ -f "../$ZIP" ];then
-		echo "delete $ZIP ..."
-		rm -i "../$ZIP"
-	    else
-		echo "$ZIP not exist."
-	    fi
-	done
-	cd ..
-	rm -ri tars
-	exit 0
+if [ $1 = "-c" ]; then
+        echo "cleaning..."
+        if [ $2 = "-i" ]; then
+        PARAM = "-i"
+        fi
+        cd tars
+        for file in *.tar; do
+            ZIP="${file%%.tar*}.zip"
+            echo "check \"$ZIP\" ..."
+            if [ -f "../$ZIP" ];then
+                echo "delete $ZIP ..."
+                rm $PARAM "../$ZIP"
+            else
+                echo "$ZIP not exist."
+            fi
+        done
+        cd ..
+        rm -r $PARAM tars
+        exit 0
 fi
 
 check_sub(){
