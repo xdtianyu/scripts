@@ -40,6 +40,10 @@ else
 	fi
 fi
 
+# Ignore OS check.
+FAIL="false"
+echo "OK"
+
 echo -e "Checking for a 64-bit OS... \c"
 
 if [ $(uname -i) = $(cat hardware) ];then
@@ -78,3 +82,4 @@ fi
 cp -r $LIBDIR/$BINNAME /$LIBDIR/$BINNAME
 
 echo "Done. Please edit necessary configures to run opensips."
+
