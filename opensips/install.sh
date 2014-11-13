@@ -126,11 +126,15 @@ if [ -d "/$ETCDIR/$BINNAME" ];then
     echo "install $BINNAME.init to /$ETCDIR/init.d/$BINNAME..."
     cp $ETCDIR/init.d/$BINNAME.init /$ETCDIR/init.d/$BINNAME
     chmod +x /$ETCDIR/init.d/$BINNAME
-    if [ -n $(command -v apt-get) ]; then
-        bash $ETCDIR/$BINNAME.postinst configure
-    elif [ -n $(command -v yum) ]; then
-        bash $ETCDIR/$BINNAME.postinst configure
-        passwd -l opensips
+    if [ -n "$(command -v apt-get)" ]; then
+        if [ -f "$ETCDIR/$BINNAME.postinst" ]; then
+            bash $ETCDIR/$BINNAME.postinst configure
+        fi
+    elif [ -n "$(command -v yum)" ]; then
+        if [ -f "$ETCDIR/$BINNAME.postinst" ]; then
+            bash $ETCDIR/$BINNAME.postinst configure
+            passwd -l opensips
+        fi
     fi
 fi
 cp -r $ETCDIR/$BINNAME /$ETCDIR
