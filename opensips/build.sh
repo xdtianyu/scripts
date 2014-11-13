@@ -15,6 +15,8 @@ SBINS="opensipsctl opensipsunix osipsconfig opensips opensipsdbctl osipsconsole"
 BINNAME="opensips"
 RELEASEBIN="opensips.run"
 RUNSCRIPT="install.sh"
+BACKUP="no"
+RELEASEDIR="release"
 
 if [ $UID -ne 0 ]; then
     echo "Superuser privileges are required to run this script."
@@ -28,10 +30,25 @@ if [ ! -z $1 ]; then
 		if [ -d "archive" ]; then
 			rm -rf archive
 		fi
-		if [ -d "release" ]; then
-			rm -rf release
+        if [ -n "$2" ] && [ "$2" = "--backup" ]; then
+            echo "cleaning backup..."
+            RELEASEDIR="backup"
+        fi
+		if [ -d "$RELEASEDIR" ]; then
+			rm -rf $RELEASEDIR
 		fi
 		exit 0
+    elif [ "$1" = "--backup" ]; then
+        echo "create backup..."
+        RELEASEBIN="opensips-backup-"$(date +%F-%H-%M-%S)".run"
+        RELEASEDIR="backup"
+        BACKUP="yes"
+		if [ -d "archive" ]; then
+			rm -rf archive
+		fi
+		if [ -d "$RELEASEDIR" ]; then
+			rm -rf $RELEASEDIR
+		fi
 	else 
 		echo "unknow param: $1"
 		exit 0
@@ -71,17 +88,31 @@ else
     mkdir $ETCDIR/default
     mkdir $ETCDIR/init.d
     if [ -n "$(command -v apt-get)" ]; then
-        echo "copying ../packaging/debian/$BINNAME.default ..."
-        cp ../packaging/debian/$BINNAME.default $ETCDIR/default
-        echo "copying ../packaging/debian/$BINNAME.init..."
-        cp ../packaging/debian/$BINNAME.init $ETCDIR/init.d
-        cp ../packaging/debian/$BINNAME.postinst $ETCDIR/
+        if [ "$BACKUP" = "no" ]; then
+            echo "copying ../packaging/debian/$BINNAME.default ..."
+            cp ../packaging/debian/$BINNAME.default $ETCDIR/default
+            echo "copying ../packaging/debian/$BINNAME.init ..."
+            cp ../packaging/debian/$BINNAME.init $ETCDIR/init.d
+            cp ../packaging/debian/$BINNAME.postinst $ETCDIR/
+        else
+            echo "backup /etc/default/$BINNAME ..."
+            cp /etc/default/$BINNAME $ETCDIR/default/$BINNAME.default
+            echo "backup /etc/init.d/$BINNAME ..."
+            cp /etc/init.d/$BINNAME $ETCDIR/init.d/$BINNAME.init
+        fi
     elif [ -n "$(command -v yum)" ]; then
-        echo "copying ../packaging/debian/$BINNAME.default ..."
-        cp ../packaging/rpm/$BINNAME.default $ETCDIR/default
-        echo "copying ../packaging/debian/$BINNAME.init ..."
-        cp ../packaging/rpm/$BINNAME.init $ETCDIR/init.d
-        cp ../packaging/rpm/$BINNAME.postinst $ETCDIR/
+        if [ "$BACKUP" = "no" ]; then
+            echo "copying ../packaging/debian/$BINNAME.default ..."
+            cp ../packaging/rpm/$BINNAME.default $ETCDIR/default
+            echo "copying ../packaging/debian/$BINNAME.init ..."
+            cp ../packaging/rpm/$BINNAME.init $ETCDIR/init.d
+            cp ../packaging/rpm/$BINNAME.postinst $ETCDIR/
+        else
+            echo "backup /etc/default/$BINNAME ..."
+            cp /etc/default/$BINNAME $ETCDIR/default/$BINNAME.default
+            echo "backup /etc/init.d/$BINNAME ..."
+            cp /etc/init.d/$BINNAME $ETCDIR/init.d/$BINNAME.init
+        fi
     fi
 fi
 
@@ -230,11 +261,15 @@ if [ -d "/$ETCDIR/$BINNAME" ];then
     echo "install $BINNAME.init to /$ETCDIR/init.d/$BINNAME..."
     cp $ETCDIR/init.d/$BINNAME.init /$ETCDIR/init.d/$BINNAME
     chmod +x /$ETCDIR/init.d/$BINNAME
-    if [ -n $(command -v apt-get) ]; then
-        bash $ETCDIR/$BINNAME.postinst configure
-    elif [ -n $(command -v yum) ]; then
-        bash $ETCDIR/$BINNAME.postinst configure
-        passwd -l opensips
+    if [ -n "$(command -v apt-get)" ]; then
+        if [ -f "$ETCDIR/$BINNAME.postinst" ]; then
+            bash $ETCDIR/$BINNAME.postinst configure
+        fi
+    elif [ -n "$(command -v yum)" ]; then
+        if [ -f "$ETCDIR/$BINNAME.postinst" ]; then
+            bash $ETCDIR/$BINNAME.postinst configure
+            passwd -l opensips
+        fi
     fi
 fi
 cp -r $ETCDIR/$BINNAME /$ETCDIR
@@ -253,12 +288,12 @@ chmod +x archive/$RUNSCRIPT
 rm -rf archive
 
 if [ -f "$RELEASEBIN" ]; then
-	if [ -d "release" ]; then
-		rm -rf release
+	if [ -d "$RELEASEDIR" ]; then
+		rm -rf $RELEASEDIR
 	fi
-	mkdir release
-	mv $RELEASEBIN release
-	echo "Done. Please check file release/$RELEASEBIN"
+	mkdir $RELEASEDIR
+	mv $RELEASEBIN $RELEASEDIR
+	echo "Done. Please check file \"$RELEASEDIR/$RELEASEBIN\""
 else
 	echo "Error detected."
 fi
