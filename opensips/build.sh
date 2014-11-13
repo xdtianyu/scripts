@@ -67,6 +67,22 @@ if [ ! -d "/etc/$BINNAME" ];then
 else
 	echo "copying /etc/$BINNAME..."
 	cp -r /etc/$BINNAME $ETCDIR
+    
+    mkdir $ETCDIR/default
+    mkdir $ETCDIR/init.d
+    if [ -n "$(command -v apt-get)" ]; then
+        echo "copying ../packaging/debian/$BINNAME.default ..."
+        cp ../packaging/debian/$BINNAME.default $ETCDIR/default
+        echo "copying ../packaging/debian/$BINNAME.init..."
+        cp ../packaging/debian/$BINNAME.init $ETCDIR/init.d
+        cp ../packaging/debian/$BINNAME.postinst $ETCDIR/
+    elif [ -n "$(command -v yum)" ]; then
+        echo "copying ../packaging/debian/$BINNAME.default ..."
+        cp ../packaging/rpm/$BINNAME.default $ETCDIR/default
+        echo "copying ../packaging/debian/$BINNAME.init ..."
+        cp ../packaging/rpm/$BINNAME.init $ETCDIR/init.d
+        cp ../packaging/rpm/$BINNAME.postinst $ETCDIR/
+    fi
 fi
 
 if [ ! -d "/lib64/$BINNAME" ];then
@@ -209,6 +225,17 @@ done
 if [ -d "/$ETCDIR/$BINNAME" ];then
 	echo "/$ETCDIR/$BINNAME already exist, make backup."
 	mv /$ETCDIR/$BINNAME /$ETCDIR/$BINNAME.backup-$(date +%F-%H-%M-%S)
+    echo "install $BINNAME.default to /$ETCDIR/default/$BINNAME..."
+    cp $ETCDIR/default/$BINNAME.default /$ETCDIR/default/$BINNAME
+    echo "install $BINNAME.init to /$ETCDIR/init.d/$BINNAME..."
+    cp $ETCDIR/init.d/$BINNAME.init /$ETCDIR/init.d/$BINNAME
+    chmod +x /$ETCDIR/init.d/$BINNAME
+    if [ -n $(command -v apt-get) ]; then
+        bash $ETCDIR/$BINNAME.postinst configure
+    elif [ -n $(command -v yum) ]; then
+        bash $ETCDIR/$BINNAME.postinst configure
+        passwd -l opensips
+    fi
 fi
 cp -r $ETCDIR/$BINNAME /$ETCDIR
 
