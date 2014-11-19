@@ -55,8 +55,8 @@ dnspod_domain_get_id(){
     for line in $out;do
         if [ $(echo $line|grep '<id>' |wc -l) != 0 ];then
             RECORD_ID=${line%<*};
-            #RECORD_ID=${RECORD_ID#*>};
-            echo "record id: $RECORD_ID";
+            RECORD_ID=${RECORD_ID#*>};
+            #echo "record id: $RECORD_ID";
         fi
         if [ $(echo $line|grep '<name>' |wc -l) != 0 ];then
             RECORD_NAME=${line%<*};
