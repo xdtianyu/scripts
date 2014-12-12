@@ -1,6 +1,10 @@
 #!/bin/sh
 # usage: ./dnspod.sh ddns.conf
 
+if [ "$#" != 1 ];then
+	echo "param error."
+	exit 0
+fi
 ACCOUNT=""
 PASSWORD=""
 DOMAIN=""
@@ -24,10 +28,11 @@ dnspod_load_config(){
 }
 
 dnspod_is_record_updated(){
-    #resolve_ip=$(nslookup $SUBDOMAIN.$DOMAIN | tail -2 |grep Add | awk '{print $NF}')
-    resolve_ip=$(curl -s -k https://www.xdty.org/resolve.php -X POST -d "domain=$SUBDOMAIN.$DOMAIN")    
-    current_ip=$(curl -s icanhazip.com)
-    echo $resolve_ip $current_ip
+    resolve_ip=$(curl -s -k https://www.xdty.org/resolve.php -X POST -d "domain=$SUBDOMAIN.$DOMAIN")
+    #current_ip=$(curl -s icanhazip.com)
+    current_ip=$(curl -s ip.xdty.org)
+    echo $resolve_ip
+	echo $current_ip 
     if [ "$resolve_ip" = "$current_ip" ]; then
         echo "Record updated."
         exit 0;
@@ -73,13 +78,13 @@ dnspod_domain_get_id(){
 
 dnspod_update_record_ip(){
 	curl -k https://dnsapi.cn/Record.Ddns -d "login_email=${ACCOUNT}&login_password=${PASSWORD}&domain_id=${DOMAIN_ID}&record_id=${RECORD_ID}&sub_domain=${RECORD_NAME}&record_line=${RECORD_LINE}"
-        curl -k https://www.xdty.org/email.php -X POST -d "event=ip($current_ip) changed&name=$SUBDOMAIN&email=$ACCOUNT"
+	curl -k https://www.xdty.org/mail.php -X POST -d "event=ip($current_ip) changed&name=$SUBDOMAIN&email=$ACCOUNT"
 }
 
 main(){
 
 	dnspod_load_config $1
-    dnspod_is_record_updated
+	dnspod_is_record_updated
 	dnspod_domain_get_id
 	dnspod_update_record_ip
 }
