@@ -8,7 +8,9 @@ autobuild.sh will generate a file 'opensips.run' and send emails to the receiver
 2. Add this script to PATH, maybe ~/bin. Make sure the *.sh files have execute access.
 3. Add a cron tab with something like this 
 '0 0 * * * /home/builder/bin/autobuild.sh > /dev/null 2>&1 &'
-4. You need to modify script's location if necessary, for example my file tree is:
+4. You need modify email.conf for the receivers.
+5. You need to modify the push server where scp pushs the file 'opensips.run'. Maybe need setup auth key of remote server.
+6. You need to modify script's location if necessary, for example my file tree is:
 .
 ```bash
 ├── bin
@@ -21,8 +23,7 @@ autobuild.sh will generate a file 'opensips.run' and send emails to the receiver
         ├── makeself-header.sh
         └── makeself.sh
 ```
-5. You need modify email.conf for the receivers.
-6. You need to modify the push server where scp pushs the file 'opensips.run'. Maybe need setup auth key of remote server.
+
 
 ## Related files
 autobuild.sh, mail.cfg, make.sh, build.sh, autobuild.cron
