@@ -27,3 +27,5 @@ autobuild.sh will generate a file 'opensips.run' and send emails to the receiver
 ## Related files
 autobuild.sh, mail.cfg, make.sh, build.sh, autobuild.cron
 
+##More information please read *.sh files.
+
