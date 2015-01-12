@@ -1,0 +1,1 @@
+0 0 * * * /home/builder/bin/autobuild.sh > /dev/null 2>&1 &
