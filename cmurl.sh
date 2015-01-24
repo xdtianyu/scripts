@@ -25,7 +25,19 @@ if [ ! -d "$DIRECTORY" ];then
     exit 0
 fi
 
+if [ -f "$DIRECTORY/$ZIP.done" ];then 
+    echo "UPLOADED"
+    exit 0
+fi
+
 cd $DIRECTORY
+
+touch none.done
+
+for file in *.done;do
+    echo "REMOVE $file"
+    rm $file
+done
 
 wget $URL > $ZIP.wget.log 2>&1
 
@@ -44,6 +56,8 @@ fi
 if [ -f "$DIRECTORY/$ZIP.wget.log" ];then
     rm "$DIRECTORY/$ZIP.wget.log"
 fi
+
+touch "$DIRECTORY/$ZIP.done"
 
 
 cd -
