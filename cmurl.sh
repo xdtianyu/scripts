@@ -1,8 +1,8 @@
 #!/bin/bash
-
 URL=$1
 TARGET=$2
 DIRECTORY=$3
+BYPY='/root/bypy/bypy.py'
 
 URL=$(curl -k -s $URL |grep $TARGET |grep -v html| sed -n "s|.*href=\"\([^\"]*\).*|$URL\1|p")
 
@@ -31,8 +31,7 @@ wget $URL > $ZIP.wget.log 2>&1
 
 md5sum $ZIP > $ZIP.md5
 
-alias bypy='/root/bypy/bypy.py'
-bypy -v -s 10MB syncup . cyanogenmod
+$BYPY -v -s 10MB syncup . cyanogenmod
 
 if [ -f "$DIRECTORY/$ZIP" ];then
     rm "$DIRECTORY/$ZIP"
