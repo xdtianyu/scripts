@@ -1,6 +1,6 @@
 #!/bin/bash
 # copy complete torrent's *.resume *.torrent file
-# Useage:  trcp /media/smb/complete/ /media/wndr4300/transmission/
+# Usage:  trcp /media/smb/complete/ /media/wndr4300/transmission/
 
 COMPLETE_DIR=$1
 TR_DIR=$2
