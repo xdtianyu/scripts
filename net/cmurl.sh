@@ -43,7 +43,7 @@ wget $URL > $ZIP.wget.log 2>&1
 
 md5sum $ZIP > $ZIP.md5
 
-$BYPY -v -s 10MB syncup . cyanogenmod
+$BYPY -v --disable-ssl-check -s 10MB syncup . cyanogenmod
 
 if [ -f "$DIRECTORY/$ZIP" ];then
     rm "$DIRECTORY/$ZIP"
