@@ -1,6 +1,9 @@
 #!/bin/bash
+# Please read cm.sh and cyanogenmod.crontab.list too.
+
 URL=$1
-TARGET=$2
+DEVICE=$2
+TARGET=$DEVICE.zip
 DIRECTORY=$3
 BYPY='/root/bypy/bypy.py'
 
@@ -22,7 +25,7 @@ fi
 
 if [ ! -d "$DIRECTORY" ];then
     echo "ERROR DIR"
-    exit 0
+    mkdir -p "$DIRECTORY"
 fi
 
 if [ -f "$DIRECTORY/$ZIP.done" ];then 
@@ -43,7 +46,7 @@ wget $URL > $ZIP.wget.log 2>&1
 
 md5sum $ZIP > $ZIP.md5
 
-$BYPY -v --disable-ssl-check -s 10MB syncup . cyanogenmod
+$BYPY -v --disable-ssl-check -s 10MB syncup . cm/$DEVICE
 
 if [ -f "$DIRECTORY/$ZIP" ];then
     rm "$DIRECTORY/$ZIP"
