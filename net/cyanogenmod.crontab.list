@@ -1,3 +1,5 @@
+30 * * * * bash /root/bin/cm jflte
+32 * * * * bash /root/bin/cm picassowifi
 34 * * * * bash /root/bin/cm ghost
 36 * * * * bash /root/bin/cm flounder
 38 * * * * bash /root/bin/cm find7s
