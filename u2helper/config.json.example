@@ -1,0 +1,10 @@
+{
+  "download_dir": "/mnt/usb/download",
+  "target_dir_parent": "/mnt/usb",
+  "transmission_url": "https://your.doamin.name/transmission/rpc",
+  "transmission_user": "YOUR USERNAME",
+  "transmission_password": "YOUR PASSWORD",
+  "uid": "123456",
+  "nexusphp_u2": "nexusphp_u2 FROM U2 COOKIES",
+  "__cfduid": "__cfduid FROM U2 COOKIES"
+}

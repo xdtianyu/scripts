@@ -1,0 +1,4 @@
+config.json
+seeding.json
+*.pyc
+.idea
