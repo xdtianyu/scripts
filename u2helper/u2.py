@@ -66,7 +66,6 @@ for td, table in itertools.izip(td_list, table_list):
     torrents.append(json.JSONDecoder().decode(u2torrent.json()))
     count += 1
     time.sleep(3)
-    break
 
 torrents_dict["count"] = count
 torrents_dict["torrents"] = torrents
