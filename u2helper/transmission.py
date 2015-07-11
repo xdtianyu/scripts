@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # coding=utf-8
 
 import time
@@ -22,7 +23,9 @@ target_dir_parent = config["target_dir_parent"]
 target_dir = {"Lossless Music": target_dir_parent + u"/音乐/",
               "BDISO": target_dir_parent + u"/动漫/",
               "BDrip": target_dir_parent + u"/动漫/",
+              u"加流重灌": target_dir_parent + u"/动漫/",
               u"外挂结构": target_dir_parent + u"/字幕/",
+              "Others": target_dir_parent + u"/其他/",
               "DVDISO": target_dir_parent + u"/动漫/"}
 
 headers = {'X-Transmission-Session-Id': '',
@@ -54,11 +57,11 @@ for torrent in result["arguments"]["torrents"]:
             if seeding["folder"] == torrent["name"]:
                 if seeding["catalog"] == "Lossless Music" or seeding["catalog"] == u"外挂结构":
                     location_payload = '''{"method": "torrent-set-location", "arguments": {"move": true, "location": "''' + \
-                                       target_dir[seeding["catalog"].encode('utf8')] + '''", "ids": [''' + \
+                                       target_dir[seeding["catalog"]].encode('utf8') + '''", "ids": [''' + \
                                        str(torrent["id"]) + ''']}}'''
                 else:
                     location_payload = '''{"method": "torrent-set-location", "arguments": {"move": true, "location": "''' + \
-                                       target_dir[seeding["catalog"]] + \
+                                       target_dir[seeding["catalog"]].encode('utf8') + \
                                        seeding["name"].encode('utf8') + '''", "ids": [''' + \
                                        str(torrent["id"]) + ''']}}'''
                 print location_payload
