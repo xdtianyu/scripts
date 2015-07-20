@@ -20,7 +20,7 @@ if [ -f $OUTPUT ]; then
 fi
 
 for file in ${TEST_FILES[@]}; do
-    timeout $TIMEOUT wget -4 -O /dev/null $file -a $OUTPUT
+    timeout $TIMEOUT wget -4 -O /dev/null $file -a $OUTPUT --progress=dot:binary
     echo -e "\n\n#######################\n" >>$OUTPUT
 done
 
