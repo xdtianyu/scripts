@@ -26,7 +26,7 @@ You can add `~/bin` to your `PATH` in `/etc/profile`
 
 Replace `EMAIL` with your email address.
 
-Replace `TEST_FILES` arrays with your own test files. Each test will only has 5 seconds and then `timeout`.
+Replace `TEST_FILES` arrays with your own test files. Each test will only has `TIMEOUT` seconds(default 20) and then `timeout`.
 
 You can replace `NAME` with `speedtest(home)` to distinguish other tests.
 
