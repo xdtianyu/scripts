@@ -26,7 +26,7 @@ chmod +x speedtest
 
 修改 `EMAIL` 为的邮箱地址.
 
-修改 `TEST_FILES` 数组为你的测试文件地址. 每一个测试会在5秒后强制打断 即 `timeout`.
+修改 `TEST_FILES` 数组为你的测试文件地址. 每一个测试会在 `TIMEOUT` 秒(默认20)后强制打断 即 `timeout`.
 
 你可以修改 `NAME` 为 `speedtest(home)` 来区分其他测试.
 
