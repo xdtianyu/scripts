@@ -1,6 +1,7 @@
 #!/bin/bash
 
 EMAIL="YOUR_EMAIL@example.com"
+TIMEOUT=20
 NAME="speedtest"
 EVENT="finished"
 OUTPUT=/tmp/wget.speedtest
@@ -19,7 +20,7 @@ if [ -f $OUTPUT ]; then
 fi
 
 for file in ${TEST_FILES[@]}; do
-    timeout 5 wget -4 -O /dev/null $file -a $OUTPUT
+    timeout $TIMEOUT wget -4 -O /dev/null $file -a $OUTPUT
     echo -e "\n\n#######################\n" >>$OUTPUT
 done
 
