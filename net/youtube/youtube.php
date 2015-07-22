@@ -1,4 +1,5 @@
 <?php
+    # I recommend you use HTTPS and Basic access authentication to protect this file.
     $method = $_SERVER['REQUEST_METHOD'];
     switch ($method) {
         case 'POST':
