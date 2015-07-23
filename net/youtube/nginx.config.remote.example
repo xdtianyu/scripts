@@ -1,0 +1,9 @@
+location /path/to/youtube.php {
+    auth_basic "Authentication required";
+    auth_basic_user_file /etc/nginx/.dlpasswd; 
+}
+
+location /path/to/rm.php { 
+    auth_basic "Authentication required";
+    auth_basic_user_file /etc/nginx/.dlpasswd; 
+}
