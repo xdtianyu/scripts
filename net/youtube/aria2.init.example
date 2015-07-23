@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+SERVICE_USE_PID=1
+
+START=50
+
+start() {
+    umask 0000
+    aria2c  --daemon=true --enable-rpc --rpc-listen-all=false -D --conf-path=/etc/aria2.conf
+}
+
+
+stop() {
+	/usr/bin/killall aria2c
+}
