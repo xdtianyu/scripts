@@ -6,4 +6,5 @@ API_URI=https://remote.example.com/rm/
 
 echo "$3" >>/tmp/aria2-complete.txt
 
-curl -v --user $USER:$PASSWORD $API_URI -X POST -d "files=$(basename $3)" --capath /etc/ssl/certs/ >>/tmp/aria2.txt 2>&1
+FILENAME=$(basename "$3")
+curl -s -v --user $USER:$PASSWORD $API_URI -X POST -d "files=$FILENAME" --capath /etc/ssl/certs/ >>/tmp/aria2.txt 2>&1
