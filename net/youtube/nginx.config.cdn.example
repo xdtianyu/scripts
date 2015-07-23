@@ -1,4 +1,41 @@
-location /downloads/ {
-    proxy_buffering off;
-    proxy_pass https://remote.example.com/downloads/;
+server {
+    listen 80; 
+    listen 443 ssl;
+    server_name cdn.example.com; 
+    ssl_certificate certs/cdn.example.com.chained.crt;
+    ssl_certificate_key certs/cdn.example.com.key;
+     
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; 
+    ssl_ciphers HIGH:!aNULL:!MD5;
+     
+    charset utf-8; 
+     
+    access_log/var/log/nginx/$host.access.log; 
+     
+    client_max_body_size 20M;
+     
+    root /var/www/;
+    indexindex.html index.htm index.php; 
+     
+    if ($ssl_protocol = "") {
+        return 301 https://$http_host$request_uri; 
+    }
+     
+    location / { 
+        try_files $uri $uri/ /index.php?q=$uri&$args;
+    }
+     
+    #error_page404/404.html; 
+     
+    # redirect server error pages to the static page /50x.html 
+    #
+    error_page 500 502 503 504/50x.html; 
+    location = /50x.html { 
+        root /usr/share/nginx/html;
+    }
+
+    location /downloads/ {
+        proxy_buffering off;
+        proxy_pass https://remote.example.com/downloads/;
+    }
 }
