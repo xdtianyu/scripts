@@ -1,11 +1,78 @@
-# aria2 jsonrpc
-location /jsonrpc {
-    auth_basic "Authentication required";
-    auth_basic_user_file /etc/nginx/.dlpasswd;
-    proxy_pass        http://127.0.0.1:6800;
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name home.example.com;
+    ssl_certificate certs/home.example.com.chained.crt;
+    ssl_certificate_key certs/home.example.com.key;
 
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host $host;
+    ssl_protocols   TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers     HIGH:!aNULL:!MD5;
+
+    charset utf-8;
+
+    access_log  /var/log/nginx/$host.access.log;
+
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 32k;
+    fastcgi_buffers 4 32k;
+    fastcgi_busy_buffers_size 32k;
+    fastcgi_temp_file_write_size 32k;
+    client_body_timeout 10;
+    client_header_timeout 10;
+    send_timeout 60;
+    output_buffers 1 32k;
+    postpone_output 1460;
+    
+    root /www;
+    index index.html index.htm /_h5ai/server/php/index.php;
+
+    if ($ssl_protocol = "") {
+        return 302 https://$http_host$request_uri;
+    }
+    
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # openwrt luci (proxy of uhttpd)
+    location /cgi-bin/luci {
+        proxy_pass http://127.0.0.1:81;
+    }
+
+    # transmission/web
+    location /transmission {
+        auth_basic "Authentication required";
+        auth_basic_user_file /etc/nginx/.dlpasswd;
+        proxy_pass http://127.0.0.1:9092;
+        proxy_pass_header  X-Transmission-Session-Id;
+    }
+    
+    # aria2-webui
+    location /aria2 {
+        auth_basic "Authentication required";
+        auth_basic_user_file /etc/nginx/.dlpasswd;
+    }
+
+    # aria2 jsonrpc
+    location /jsonrpc {
+        auth_basic "Authentication required";
+        auth_basic_user_file /etc/nginx/.dlpasswd;
+        proxy_pass        http://127.0.0.1:6800;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+    # aria2 xmlrpc
+    location /rpc {
+        auth_basic "Authentication required";
+        auth_basic_user_file /etc/nginx/.dlpasswd;
+        proxy_pass        http://127.0.0.1:6800;
+
+        proxy_set_header Host $host;
+    }
 }
