@@ -73,6 +73,16 @@ x2jpg(){
     echo 'DONE!'
 }
 
+# wait for other x2t jobs done.
+
+while [ -f /tmp/.x2t ]
+do
+    echo "wait other job exit"
+    sleep 2
+done
+
+touch /tmp/.x2t
+
 tmpdir=$(mktemp -d)
 
 if [ "$TYPE"="-z" ]; then
@@ -108,3 +118,5 @@ if [ -d "$DIR" ]; then
 else
     echo "$DIR not exist."
 fi
+
+rm /tmp/.x2t
