@@ -1,18 +1,11 @@
 #!/bin/bash
 
-USER="HTTP_USER"
-PASSWORD="HTTP_PASSOWRD"
-RPC="https://home.example.com/jsonrpc"
-TOKEN="ARIA2_TOKEN"
+TYPE=$1
+file=$2
 
-DOWNLOAD_URLS=(
-    https://remote.example.com/downloads/
-    https://cdn1.example.com/downloads/
-    https://cdn2.example.com/downloads/
-    https://cdn3.example.com/downloads/
-    https://cdn4.example.com/downloads/
-)
+ARIA2_RPC=/etc/transmission-daemon/aria2-rpc.sh
 
+export LC_ALL=en_US.UTF-8
 
 check_sub(){
 	echo "check sub."
@@ -80,9 +73,6 @@ x2jpg(){
     echo 'DONE!'
 }
 
-TYPE=$1
-file=$2
-
 tmpdir=$(mktemp -d)
 
 if [ "$TYPE"="-z" ]; then
@@ -113,15 +103,8 @@ if [ -d "$DIR" ]; then
     echo "tar cvf $DIR.tar $DIR" 
     tar cvf "$DIR.tar" "$DIR" --force-local # tar the directory.
     rm -r "$DIR"
-    LINK=""
-    for URL in "${DOWNLOAD_URLS[@]}"; do
-        if [ -z "$LINK" ]; then
-            LINK="\"$URL$DIR.tar\""
-        else
-            LINK="$LINK, \"$URL$DIR.tar\""
-        fi
-    done
-    curl -s -v --user $USER:$PASSWORD $RPC -X POST -d "[{\"jsonrpc\":\"2.0\",\"method\":\"aria2.addUri\",\"id\":1,\"params\":[\"token:$TOKEN\",[$LINK],{\"split\":\"10\",\"max-connection-per-server\":\"10\",\"seed-ratio\":\"1.0\"}]}]"
+    # send to home aria2
+    $ARIA2_RPC "$DIR.tar"
 else
     echo "$DIR not exist."
 fi
