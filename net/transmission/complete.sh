@@ -64,3 +64,6 @@ else
     echo "Unknow file format: $TR_TORRENT_NAME" >>$OUTPUT
 fi
 
+if [ "$REMOVE" == "false" ]; then
+    rm -r "$TARGET_DIR/$TR_TORRENT_NAME"
+fi
