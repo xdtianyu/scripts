@@ -39,8 +39,8 @@ x2jpg(){
 	mkdir origin
     fi
     if [ ! -d /tmp/jpg ]; then
-
 	    mkdir /tmp/jpg
+	    chmod -R 777 /tmp/jpg
     fi
 
     tmp_fifofile="/tmp/$$.fifo"
