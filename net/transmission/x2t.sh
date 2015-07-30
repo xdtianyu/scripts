@@ -85,11 +85,11 @@ touch /tmp/.x2t
 
 tmpdir=$(mktemp -d)
 
-if [ "$TYPE"="-z" ]; then
+if [ "$TYPE" = "-z" ]; then
     DIR="${file%%.zip*}"
     echo "unzip $file -d $tmpdir";
     unzip "$file" -d $tmpdir # unzip to a tmp directory.
-elif [ "$TYPE"="-r" ]; then
+elif [ "$TYPE" = "-r" ]; then
     DIR="${file%%.rar*}"
     echo "unrar x $file $tmpdir";
     mv "$file" tmp.rar
