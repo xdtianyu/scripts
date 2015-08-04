@@ -81,8 +81,8 @@ for test in tests:
 output_file = open(directory+'/'+name+'.htm', 'w')
 
 chart_name = "Speed Test"
-chart = lineWithFocusChart(name=chart_name, width=1024, color_category='category20b', x_is_date=True,
-                           x_axis_format="%d %b %Y %H")
+chart = lineWithFocusChart(name=chart_name, width="1280", height="720", color_category='category20b', x_is_date=True,
+                           x_axis_format="%m-%d %H:%M")
 
 title = "\n\n<h2>" + chart_name + "</h2> "
 
