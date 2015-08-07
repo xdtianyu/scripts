@@ -31,6 +31,8 @@ with open(directory+"/"+name+".txt", 'r') as content_file:
 tests = content.split('#######################')
 
 date = datetime
+min_date = datetime.now() + timedelta(0, -3600*36)
+
 uri = ""
 
 testDict = {}
@@ -44,7 +46,11 @@ for test in tests:
 
         print date
         print uri
-
+        
+        if date < min_date:
+            print "more than 36 hour, ignore."
+            continue
+        
         if uri in testDict:
             speedList = testDict[uri]
         else:
