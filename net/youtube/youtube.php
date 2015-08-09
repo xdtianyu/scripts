@@ -13,7 +13,7 @@
                 echo json_encode($urls, JSON_UNESCAPED_SLASHES);
                 #shell_exec("echo '".json_encode($urls)."' >>/tmp/out.txt 2>&1 &");
                 foreach ($urls as $url) {
-                    shell_exec("cd /home/downloads;./youtube ".escapeshellarg($url)." >>/tmp/youtube.txt 2>&1 &");
+                    shell_exec("./youtube.sh ".escapeshellarg($url)." >>/tmp/youtube.txt 2>&1 &");
                 }
                 exit;
             } else {
