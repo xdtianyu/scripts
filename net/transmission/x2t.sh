@@ -8,10 +8,10 @@ ARIA2_RPC=/etc/transmission-daemon/aria2-rpc.sh
 export LC_ALL=en_US.UTF-8
 
 check_sub(){
-	echo "check sub."
+    echo "check sub."
     SAVEIFS=$IFS # setup this case the space char in file name.
     IFS=$(echo -en "\n\b")
-	for subdir in $(find -maxdepth 1 -type d |grep ./ |cut -c 3-); 
+    for subdir in $(find -maxdepth 1 -type d |grep ./ |cut -c 3-); 
         do 
             echo $subdir
             cd "$subdir"
@@ -26,9 +26,9 @@ convert_to_jpg(){
     for ext in jpg JPG bmp BMP png PNG; do
         echo "ext is $ext"
         if [ ! $(find . -maxdepth 1 -name \*.$ext | wc -l) = 0 ]; 
-	    then 
-		    x2jpg $ext
-	    fi
+        then 
+            x2jpg $ext
+        fi
     done
 
     check_sub # check if has sub directory.
@@ -36,11 +36,11 @@ convert_to_jpg(){
 
 x2jpg(){
     if [ ! -d origin ];then
-	mkdir origin
+    mkdir origin
     fi
     if [ ! -d /tmp/jpg ]; then
-	    mkdir /tmp/jpg
-	    chmod -R 777 /tmp/jpg
+        mkdir /tmp/jpg
+        chmod -R 777 /tmp/jpg
     fi
 
     tmp_fifofile="/tmp/$$.fifo"
@@ -68,6 +68,7 @@ x2jpg(){
     exec 6>&- # close fd6
 
     mv /tmp/jpg/* .
+    pwd
     rm -r origin
 
     echo 'DONE!'
@@ -78,7 +79,8 @@ x2jpg(){
 while [ -f /tmp/.x2t ]
 do
     echo "wait other job exit"
-    sleep 2
+    #sleep 2
+    sleep $[ ( $RANDOM % 10 ) + 1 ]
 done
 
 touch /tmp/.x2t
@@ -103,7 +105,7 @@ if [ $(ls $tmpdir | wc -l) = 1 ]; then # check if has folders, and mv the unzipe
     rmdir $tmpdir
 else
     mv $tmpdir "$DIR"
-fi	
+fi    
 
 echo $DIR
 if [ -d "$DIR" ]; then
@@ -119,4 +121,5 @@ else
     echo "$DIR not exist."
 fi
 
+sync
 rm /tmp/.x2t
