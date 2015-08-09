@@ -1,5 +1,9 @@
 <?php
     # I recommend you use HTTPS and Basic access authentication to protect this file.
+    $locale = 'en_US.utf-8';
+    setlocale(LC_ALL, $locale);
+    putenv('LC_ALL='.$locale);
+
     $method = $_SERVER['REQUEST_METHOD'];
     switch ($method) {
         case 'POST':
@@ -9,7 +13,7 @@
                 echo json_encode($files, JSON_UNESCAPED_SLASHES);
                 #shell_exec("echo '".json_encode($files)."' >>/tmp/out.txt 2>&1 &");
                 foreach ($files as $file) {
-                    shell_exec("cd /home/downloads;rm ./'".$file."' >>/tmp/rm.txt 2>&1 &");
+                    shell_exec("cd /home/downloads;rm -- ".escapeshellarg($file)." >>/tmp/rm.txt 2>&1 &");
                 }
                 exit;
             } else {
