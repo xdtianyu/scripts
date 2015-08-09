@@ -5,6 +5,14 @@ ARIA2_RPC=/etc/transmission-daemon/aria2-rpc.sh
 
 export LC_ALL=en_US.UTF-8
 
+while [ -f /tmp/.x2t ]
+do
+    echo "wait other job exit"
+    sleep 2
+done
+
+touch /tmp/.d2t
+
 if [ "$#" -eq 2 ]; then
     DIR=$(basename "$2")
     OPT="$1"
@@ -23,3 +31,6 @@ if [ "$OPT" = "-z" ]; then
 else
     $ARIA2_RPC "$DIR.zip"
 fi
+
+sync
+rm /tmp/.d2t
