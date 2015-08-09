@@ -14,7 +14,7 @@ export LC_ALL=en_US.UTF-8
 
 echo "$TR_APP_VERSION $TR_TIME_LOCALTIME $TR_TORRENT_DIR $TR_TORRENT_HASH $TR_TORRENT_ID $TR_TORRENT_NAME" >>$OUTPUT
 
-if [ "$TR_TORRENT_DIR" != "$TARGET_DIR" ]; then
+if [ "$TR_TORRENT_DIR" != "$TARGET_DIR" ] && [ "$TR_TORRENT_DIR" != "$TARGET_DIR/" ]; then
     #echo "Not in $TARGET_DIR, exit" >>$OUTPUT
     #exit 0
     echo "Not in $TARGET_DIR, copy file now." >>$OUTPUT
