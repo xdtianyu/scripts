@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DOWNLOAD_DIR="YOUR_DOWNLOAD_DIR"
 USER="HTTP_USER"
 PASSWORD="HTTP_PASSWORD"
 RPC="https://home.example.com/jsonrpc"
@@ -15,6 +16,8 @@ DOWNLOAD_URLS=(
 URI=$1
 
 export LC_ALL=en_US.UTF-8
+
+cd "$DOWNLOAD_DIR"
 
 AUDIO=$(youtube-dl -F $URI | grep "DASH audio"|grep "aac"|tail -1|cut -d ' ' -f 1)
 VIDEO=$(youtube-dl -F $URI | grep "DASH video"|grep "mp4"|tail -1|cut -d ' ' -f 1)
