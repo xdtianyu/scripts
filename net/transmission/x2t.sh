@@ -113,7 +113,7 @@ if [ -d "$DIR" ]; then
     convert_to_jpg # convert process.
     cd ..
     echo "tar cvf $DIR.tar $DIR" 
-    tar cvf "$DIR.tar" "$DIR" --force-local # tar the directory.
+    tar cvf "$DIR.tar" "$DIR" --force-local --mode=a+rwX # tar the directory.
     rm -r "$DIR"
     # send to home aria2
     $ARIA2_RPC "$DIR.tar"
