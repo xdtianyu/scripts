@@ -41,9 +41,19 @@ MON="$(date +%m)"
 DAY="$(date +%m%d)"
 
 if [ "$EXT" = "zip" ];then
+
     echo "unzip" >>$OUTOUT
-    # TODO add zip support
+    mkdir -p "$SORT_DIR/archives/$DAY"
+    mv "$DOWNLOAD_DIR/$FILENAME" "$SORT_DIR/archives/$DAY"
+    TARGET_DIR="$SORT_DIR/$MON/$DAY"
+    if [ $(unzip -l "$SORT_DIR/archives/$DAY/$FILENAME"|grep -E '.mp4$|.wmv$|.avi$'|wc -l) -gt 0 ];then
+        TARGET_DIR="$SORT_DIR/$MON/$DAY-2"
+    fi
+    mkdir -p "$TARGET_DIR"
+    unzip "$SORT_DIR/archives/$DAY/$FILENAME" -d "$TARGET_DIR" >>$OUTOUT 2>&1
+    
 elif [ "$EXT" = "tar" ];then
+
     echo "tar xvf \"$FILENAME\" -C \"$SORT_DIR/$MON/$DAY\"" >>$OUTOUT
     mkdir -p "$SORT_DIR/archives/$DAY"
     mv "$DOWNLOAD_DIR/$FILENAME" "$SORT_DIR/archives/$DAY"
@@ -53,7 +63,9 @@ elif [ "$EXT" = "tar" ];then
     fi
     mkdir -p "$TARGET_DIR"
     tar xvf "$SORT_DIR/archives/$DAY/$FILENAME" -C "$TARGET_DIR" >>$OUTOUT 2>&1
+
 elif [ "$EXT" = "mp4" -o "$EXT" = "m4a" ];then
+
     SUBDIR=""
     
     if [ $(echo "$FILENAME"|grep "\.f[0-9]...mp4"|wc -l) -eq 1 ];then
@@ -80,6 +92,9 @@ elif [ "$EXT" = "mp4" -o "$EXT" = "m4a" ];then
 else
     echo "unknown file type: $EXT" >>$OUTOUT
 fi
+
+sync
+rm /tmp/.sort
 
 sync
 rm /tmp/.sort
