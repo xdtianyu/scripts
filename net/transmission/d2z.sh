@@ -21,6 +21,7 @@ else
     OPT="-o"
 fi
 
+chmod -R a+rwX "$DIR"
 zip -r -0 "$DIR.zip" "$DIR"
 
 if [ "$OPT" = "-z" ]; then
