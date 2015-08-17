@@ -1,8 +1,11 @@
 #!/bin/bash
 
 DIR=$1
-DEVICE=$2
-rm
-/root/bypy/bypy.py -v --disable-ssl-check -s 10MB syncup $DIR cm/$DEVICE
+FILE=$2
+DEVICE=$3
 
-rm -r $DIR
+mkdir -p $DIR/log
+/root/bypy/bypy.py mkdir cm/$DEVICE >> $DIR/log/$DEVICE.log 2>&1
+/root/bypy/bypy.py -v --disable-ssl-check -s 10MB upload $DIR/$FILE cm/$DEVICE/$FILE >> $DIR/log/$DEVICE.log 2>&1
+
+rm $DIR/$FILE >> $DIR/log/$DEVICE.log 2>&1
