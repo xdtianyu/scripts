@@ -16,13 +16,14 @@ Make sure the paths is `/root/bypy/bypy.py` `/root/cm/cm.py`, otherwise you have
 **Upload**
 ```
 cd ~/cm/
+chmod +x cm.sh cm.py
 screen
 ./cm.py
 ```
 
 This will fetch `http://download.cyanogenmod.org/` and download `*.zip` `*.img` and check their `sha1`. Then upload it to baiduyun.
 
-The default download directory is `/var/cyanogenmod`, and the default upload directory is `/YOUR_APP_DIR/cm/DEVICE`. Log file is saved in `/var/cyanogenmod/DEVICE/log/DEVICE.log`. Files have been uploaded is recorded in `/root/cm/cm.json`, file exists in `cm.json` will not download again. The script check only the last 50 builds, after all uploads are done, it will sleep for 60s and then check again.
+The default download directory is `/var/cyanogenmod`, and the default upload directory is `/YOUR_APP_DIR/cm/DEVICE`. Log file is saved in `/var/cyanogenmod/DEVICE/log/DEVICE.log`. Files have been uploaded is recorded in `/root/cm/cm.json`, file exists in `cm.json` will not download again. The script checks only the last 50 builds. After all uploads are done, it will sleep 60s and then check again.
 
 **Generate device list**
 
