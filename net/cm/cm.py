@@ -21,10 +21,11 @@ def sha1_file(file_path):
     import hashlib
 
     sha = hashlib.sha1()
-    with open(file_path, 'rb') as f:
+    with open(file_path, 'rb') as s_f:
         while True:
-            block = f.read(2 ** 10)  # Magic number: one-megabyte blocks.
-            if not block: break
+            block = s_f.read(2 ** 10)  # Magic number: one-megabyte blocks.
+            if not block:
+                break
             sha.update(block)
         return sha.hexdigest()
 
@@ -73,6 +74,7 @@ while True:
                     s = device[1].replace('(', '').replace(')', '')
                     s = s.ljust(20) + device[0]
                     print(s)
+        sys.exit(0)
     else:
         link_list = soup.find_all('a', href=re.compile('/get/jenkins/.*'))
         for link in link_list:
@@ -92,6 +94,7 @@ while True:
                     else:
 
                         while int(check_output('ps -ef | grep /root/bypy/bypy.py |grep -v grep |wc -l', shell=True)) > 5:
+                            print("wait other jobs done...")
                             time.sleep(3)
 
                         # download zip and recovery.img and check hash
@@ -113,7 +116,8 @@ while True:
 
                         call("mkdir -p {}{}".format(download_dir, device), shell=True)
 
-                        call("wget --progress=dot:binary \"{}\" -O \"{}\"".format(cmFile.url, out_file), shell=True)
+                        call("wget --progress=dot:binary \"{}\" -O \"{}\" -o \"{}.wget.log\"".
+                             format(cmFile.url, out_file, out_file), shell=True)
                         if sha1_file(out_file) == cmFile.sha1:
 
                             # upload file via bypy
@@ -123,10 +127,9 @@ while True:
                             cmFiles.append(s)
                             count += 1
 
-                            if filename.endswith('.img'):
-                                Popen("./cm.sh {}{}/{} {}".format(download_dir, device, filename, device), shell=True)
-                            else:
-                                Popen("./cm.sh {}{} {}".format(download_dir, device, device), shell=True)
+                            Popen("./cm.sh {}{} {} {}".format(download_dir, device, filename, device), shell=True)
+                            Popen("./cm.sh {}{} {}.sha1 {}".format(download_dir, device, filename, device), shell=True)
+                            Popen("./cm.sh {}{} {}.wget.log {}".format(download_dir, device, filename, device), shell=True)
                         else:
                             continue
 
@@ -135,3 +138,6 @@ while True:
 
     with io.open('cm.json', 'w') as f:
         json.dump(cmFiles_dict, f, ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ': '))
+
+    time.sleep(60)
+    print("job finished, restart now")
