@@ -16,6 +16,8 @@ DOWNLOAD_URLS=(
 export LC_ALL=en_US.UTF-8
 
 FILE="$1"
+FILE=$(python -c "import sys, urllib as ul; \
+    print ul.quote(\"$FILE\")")
 
 LINK=""
 for URL in "${DOWNLOAD_URLS[@]}"; do
