@@ -86,14 +86,14 @@ while True:
                 parent = link.parent
                 if isinstance(parent, Tag):
                     sha1 = parent.find('small', class_='md5')
-                    sha1 = sha1.text.splitlines()[1].strip().replace('sha1: ', '')
+                    sha1 = sha1.text.replace('\n', '').strip().replace('sha1: ', '')
                     cmFile.sha1 = sha1
                     s = json.JSONDecoder().decode(cmFile.json())
                     if s in cmFiles:
                         print("downloaded, skip")
                     else:
 
-                        while int(check_output('ps -ef | grep /root/bypy/bypy.py |grep -v grep |wc -l', shell=True)) > 5:
+                        while int(check_output('ps -ef | grep /root/bypy/bypy.py |grep -v grep |wc -l', shell=True)) >= 3:
                             print("wait other jobs done...")
                             time.sleep(3)
 
@@ -116,7 +116,7 @@ while True:
 
                         call("mkdir -p {}{}".format(download_dir, device), shell=True)
 
-                        call("wget --progress=dot:binary \"{}\" -O \"{}\" -o \"{}.wget.log\"".
+                        call("wget --limit-rate=3000k --progress=dot:binary \"{}\" -O \"{}\" -o \"{}.wget.log\"".
                              format(cmFile.url, out_file, out_file), shell=True)
                         if sha1_file(out_file) == cmFile.sha1:
 
@@ -131,6 +131,7 @@ while True:
                             Popen("./cm.sh {}{} {}.sha1 {}".format(download_dir, device, filename, device), shell=True)
                             Popen("./cm.sh {}{} {}.wget.log {}".format(download_dir, device, filename, device), shell=True)
                         else:
+                            print("sha1 not match, continue")
                             continue
 
     cmFiles_dict["count"] = count
@@ -141,3 +142,4 @@ while True:
 
     time.sleep(60)
     print("job finished, restart now")
+
