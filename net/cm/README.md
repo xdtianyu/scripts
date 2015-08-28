@@ -2,10 +2,10 @@ This script will download `*.zip` and `*.img` files from [http://download.cyanog
 
 ## Dependency
 
-This tool requires `python3` `bypy` `python3-bs4`
+This tool requires `python3` `bypy` `python3-bs4`, `trickle` is used for limiting upload speed.
 
 ```
-apt-get install python3 python3-bs4
+apt-get install python3 python3-bs4 trickle
 git clone https://github.com/houtianze/bypy
 ```
 
