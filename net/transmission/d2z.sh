@@ -5,7 +5,7 @@ ARIA2_RPC=/etc/transmission-daemon/aria2-rpc.sh
 
 export LC_ALL=en_US.UTF-8
 
-while [ -f /tmp/.x2t ]
+while [ -f /tmp/.d2t ]
 do
     echo "wait other job exit"
     sleep 2
