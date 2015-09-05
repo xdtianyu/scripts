@@ -62,7 +62,7 @@ for torrent in result["arguments"]["torrents"]:
                 else:
                     location_payload = '''{"method": "torrent-set-location", "arguments": {"move": true, "location": "''' + \
                                        target_dir[seeding["catalog"]].encode('utf8') + \
-                                       seeding["name"].encode('utf8') + '''", "ids": [''' + \
+                                       seeding["name"].encode('utf8').replace('/', '／') + '''", "ids": [''' + \
                                        str(torrent["id"]) + ''']}}'''
                 print location_payload
                 r = requests.post(url, headers=headers, data=location_payload, verify=False)
