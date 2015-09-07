@@ -1,10 +1,12 @@
 #!/bin/bash
 
 EMAIL="YOUR_EMAIL@example.com"
-TIMEOUT=20
+TIMEOUT=15
 NAME="speedtest"
 EVENT="finished"
 OUTPUT=/tmp/wget.speedtest
+SPEED_URL=https://example.com/speed.php
+MAIL_URL=https://example.com/mail_extra.php
 
 TEST_FILES=(
     https://node1.example.com/10meg.test
@@ -25,4 +27,10 @@ for file in ${TEST_FILES[@]}; do
 done
 
 # send email
-curl -s --http1.0 https://www.xdty.org/mail_extra.php -X POST -d "event=$EVENT&name=$NAME&email=$EMAIL" --data-urlencode extra@$OUTPUT --capath /etc/ssl/certs/
+
+echo -e "Generate chart... \n"
+curl -s --http1.0 $SPEED_URL -X POST -d "time=$TIMEOUT&client=$CLIENT" --data-urlencode extra@$OUTPUT --capath /etc/ssl/certs/
+
+echo -e "Send email... \n"
+curl -s --http1.0 $MAIL_URL -X POST -d "event=$EVENT&name=$NAME&email=$EMAIL" --data-urlencode extra@$OUTPUT --capath /etc/ssl/certs/
+
