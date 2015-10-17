@@ -5,7 +5,7 @@
 这工具需要 `python3` `bypy` `python3-bs4`, `trickle` 被用来限制上传速度
 
 ```
-apt-get install python3 python3-bs4 trickle
+apt-get install python3 python3-bs4 python3-pip trickle
 git clone https://github.com/houtianze/bypy
 ```
 
