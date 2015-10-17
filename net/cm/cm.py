@@ -16,6 +16,12 @@ from cmfile import CMFile
 import requests
 import json
 
+devices = ["mako", "hammerhead", "shamu", "grouper", "tilapia", "flo", "deb", "flounder", "manta", "a5", "dlx", "jewei",
+           "memul", "m7", "m8", "m8d", "t6", "cherry", "g620_a2", "mt2", "d802", "d855", "e975", "falcon", "peregrine",
+           "titan", "thea", "osprey", "ghost", "victara", "bacon", "find5", "find7", "find7s", "n3", "r7plus", "hlte",
+           "trltexx", "i9100", "jfltexx", "i9500", "kltechn", "kltechnduo", "honami", "amami", "sirius", "z3", "z3c",
+           "cancro"]
+
 
 def sha1_file(file_path):
     import hashlib
@@ -93,7 +99,8 @@ while True:
                         print("downloaded, skip")
                     else:
 
-                        while int(check_output('ps -ef | grep /root/bypy/bypy.py |grep -v grep |wc -l', shell=True)) >= 3:
+                        while int(
+                                check_output('ps -ef | grep /root/bypy/bypy.py |grep -v grep |wc -l', shell=True)) >= 3:
                             print("wait other jobs done...")
                             time.sleep(3)
 
@@ -112,6 +119,10 @@ while True:
                         device = device[device.rfind('-') + 1:]
                         print(device)
 
+                        if device not in devices:
+                            print(device + " is not in support list, ignore.")
+                            continue
+
                         out_file = "{}{}/{}".format(download_dir, device, filename)
 
                         call("mkdir -p {}{}".format(download_dir, device), shell=True)
@@ -129,7 +140,8 @@ while True:
 
                             Popen("./cm.sh {}{} {} {}".format(download_dir, device, filename, device), shell=True)
                             Popen("./cm.sh {}{} {}.sha1 {}".format(download_dir, device, filename, device), shell=True)
-                            Popen("./cm.sh {}{} {}.wget.log {}".format(download_dir, device, filename, device), shell=True)
+                            Popen("./cm.sh {}{} {}.wget.log {}".format(download_dir, device, filename, device),
+                                  shell=True)
                         else:
                             print("sha1 not match, continue")
                             continue
@@ -142,4 +154,3 @@ while True:
 
     time.sleep(60)
     print("job finished, restart now")
-
