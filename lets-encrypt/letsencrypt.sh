@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Usage: /etc/nginx/certs/letsencrypt.sh /etc/nginx/certs/letsencrypt.conf
+
 CONFIG=$1
 ACME_TINY="/tmp/acme_tiny.py"
 
