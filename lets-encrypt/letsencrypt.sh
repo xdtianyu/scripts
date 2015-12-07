@@ -53,6 +53,6 @@ fi
 cat $DOMAIN_CRT lets-encrypt-x1-cross-signed.pem > $DOMAIN_CHAINED_CRT
 
 
-echo -e "\e[01;32mNew cert: $DOMAIN_CHAINED_CRT has been generated$DOMAIN_CHAINED_CRT has been generated\e[0m"
+echo -e "\e[01;32mNew cert: $DOMAIN_CHAINED_CRT has been generated\e[0m"
 
-service nginx reload
+#service nginx reload
