@@ -4,12 +4,15 @@
 调用 acme_tiny.py 认证、获取、更新证书，不需要额外的依赖。
 
 **下载到本地**
+
 ```
 wget https://raw.githubusercontent.com/xdtianyu/scripts/master/lets-encrypt/letsencrypt.conf
 wget https://raw.githubusercontent.com/xdtianyu/scripts/master/lets-encrypt/letsencrypt.sh
 chmod +x letsencrypt.sh
 ```
+
 **配置文件**
+
 只需要修改 DOMAIN_KEY DOMAIN_DIR DOMAINS 为你自己的信息
 
 ```
@@ -28,6 +31,7 @@ DOMAINS="DNS:example.com,DNS:whatever.example.com"
 ```
 
 **注意**
+
 需要已经绑定域名到 `/var/www/example.com` 目录，即通过 `http://example.com` `http://whatever.example.com` 可以访问到 `/var/www/example.com` 目录，用于域名的验证
 
 **cron 定时任务**
