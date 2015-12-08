@@ -23,7 +23,7 @@ fi
 URL_D="https://www.cloudxns.net/api2/domain"
 DATE=$(date)
 HMAC_D=$(echo -n "$API_KEY$URL_D$DATE$SECRET_KEY"|md5sum|cut -d" " -f1)
-DOMAIN_ID=$(curl -k -s $URL_D -H "API-KEY: $API_KEY" -H "API-REQUEST-DATE: $DATE" -H "API-HMAC: $HMAC_D"|grep -o "id\":\"[0-9]*"|grep -o "[0-9]*")
+DOMAIN_ID=$(curl -k -s $URL_D -H "API-KEY: $API_KEY" -H "API-REQUEST-DATE: $DATE" -H "API-HMAC: $HMAC_D"|grep -o "id\":\"[0-9]*\",\"domain\":\"$DOMAIN"|grep -o "[0-9]*")
 
 echo "DOMAIN ID: "$DOMAIN_ID
 
