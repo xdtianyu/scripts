@@ -29,7 +29,18 @@ if [ ! -f "$DOMAIN_KEY" ];then
 fi
 
 echo "Generate CSR...$DOAMIN_CSR"
-openssl req -new -sha256 -key $DOMAIN_KEY -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$DOMAINS")) > $DOMAIN_CSR
+
+OPENSSL_CONF="/etc/ssl/openssl.cnf"
+
+if [ ! -f "$OPENSSL_CONF" ];then
+    OPENSSL_CONF="/etc/pki/tls/openssl.cnf"
+    if [ ! -f "$OPENSSL_CONF" ];then
+        echo "Error, file openssl.cnf not found."
+        exit 1
+    fi
+fi
+
+openssl req -new -sha256 -key $DOMAIN_KEY -subj "/" -reqexts SAN -config <(cat $OPENSSL_CONF <(printf "[SAN]\nsubjectAltName=$DOMAINS")) > $DOMAIN_CSR
 
 wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py -O $ACME_TINY -o /dev/null
 
