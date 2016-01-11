@@ -3,7 +3,7 @@
 
 if [ $(ps -ef|grep cm.py|grep -v grep|wc -l) -eq 0 ]; then
     echo "$(date) -- cm.py is down, start again."
-    screen -dmS cm python3 /root/cm/cm.py
+    cd /root/cm/; screen -dmS cm python3 /root/cm/cm.py
 else
   echo "$(date) -- cm.py is running."
 fi
