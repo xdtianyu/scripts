@@ -30,7 +30,7 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 **运行**
 
 ```
-./le-cloundxns.sh cloudxns.conf
+./le-cloudxns.sh cloudxns.conf
 ```
 
 最后生成的文件在当前目录的 certs 目录下
