@@ -2,12 +2,13 @@
 
 export CONFIG=$1
 
-if [ ! -f "$CONFIG" ];then
-    echo "ERROR, CONFIG NOT EXIST."
+if [ -f "$CONFIG" ];then
+    . $CONFIG
+    cd $(dirname $CONFIG)
+else
+    echo "ERROR CONFIG."
     exit 1
-fi 
-
-. $CONFIG
+fi
 
 echo "$CERT_DOMAINS" > domains.txt
 
