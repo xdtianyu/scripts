@@ -29,8 +29,12 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **运行**
 
-```
-./le-cloudxns.sh cloudxns.conf
-```
+`./le-cloudxns.sh cloudxns.conf`
 
 最后生成的文件在当前目录的 certs 目录下
+
+**cron 定时任务**
+
+每两个月自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
+
+`* * * */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
