@@ -1,7 +1,7 @@
 通过 DNS 验证方式获取 lets-encrypt 证书的快速脚本
 ----------------
 
-脚本基于 [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh)，通过调用 cloudxns API 实现快速获取 lets-encrypt 证书。无需root权限，无需指定网站目录及DNS解析
+脚本基于 [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh)，通过调用 cloudxns API 更新 TXT 记录用于认证，实现快速获取 lets-encrypt 证书。无需root权限，无需指定网站目录及DNS解析
 
 ## cloudxns
 
