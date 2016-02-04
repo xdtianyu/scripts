@@ -38,3 +38,6 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 每两个月自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
 
 `* * * */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
+
+
+## dnspod (WIP)
