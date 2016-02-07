@@ -39,5 +39,37 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 `* * * */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
 
+## dnspod
 
-## dnspod (WIP)
+**下载**
+
+```
+wget https://github.com/xdtianyu/scripts/raw/master/le-dns/le-dnspod.sh
+wget https://github.com/xdtianyu/scripts/raw/master/le-dns/dnspod.conf
+chmod +x le-dnspod.sh
+```
+
+**配置**
+
+`dnspod.conf` 文件内容
+
+```
+TOKEN="YOUR_API_TOKEN"
+RECORD_LINE="默认"
+DOMAIN="example.com"
+CERT_DOMAINS="example.com www.example.com im.example.com"
+```
+
+修改其中的 `TOKEN` 为您的 [dnspod api token](https://www.dnspod.cn/console/user/security) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表
+
+**运行**
+
+`./le-dnspod.sh dnspod.conf`
+
+最后生成的文件在当前目录的 certs 目录下
+
+**cron 定时任务**
+
+每两个月自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
+
+`* * * */2 * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
