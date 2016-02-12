@@ -35,6 +35,19 @@ DOMAINS="DNS:example.com,DNS:whatever.example.com"
 
 需要已经绑定域名到 `/var/www/example.com` 目录，即通过 `http://example.com` `http://whatever.example.com` 可以访问到 `/var/www/example.com` 目录，用于域名的验证
 
+**将会生成如下几个文件**
+
+    lets-encrypt-x1-cross-signed.pem
+    example.chained.crt          # 即网上搜索教程里常见的 fullchain.pem
+    example.com.key              # 即网上搜索教程里常见的 privkey.pem 
+    example.crt
+    example.csr
+
+**在 nginx 里添加 ssl 相关的配置**
+
+    ssl_certificate     /path/to/cert/example.chained.crt;
+    ssl_certificate_key /path/to/cert/example.key;
+
 **cron 定时任务**
 
 每个月自动更新一次证书，可以在脚本最后加入 service nginx reload等重新加载服务。
