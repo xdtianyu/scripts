@@ -25,7 +25,11 @@ fi
 
 if [ ! -f "$DOMAIN_KEY" ];then
     echo "Generate domain key..."
-    openssl genrsa 2048 > $DOMAIN_KEY
+    if [ $ECC = "TRUE" ];then
+        openssl ecparam -genkey -name secp256r1 | openssl ec -out $DOMAIN_KEY
+    else
+        openssl genrsa 2048 > $DOMAIN_KEY
+    fi
 fi
 
 echo "Generate CSR...$DOAMIN_CSR"
