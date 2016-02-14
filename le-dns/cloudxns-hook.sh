@@ -2,8 +2,8 @@
 
 function deploy_challenge {
     local DOMAIN="${1}" TOKEN_FILENAME="${2}" TOKEN_VALUE="${3}"
-    echo $DOMAIN $TOKEN_FILENAME $TOKEN_VALUE
-    ./cloudxns.sh ./cloudxns.conf $DOMAIN $TOKEN_VALUE
+    echo "$DOMAIN" "$TOKEN_FILENAME" "$TOKEN_VALUE"
+    ./cloudxns.sh ./cloudxns.conf "$DOMAIN" "$TOKEN_VALUE"
     sleep 5
 }
 
