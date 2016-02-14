@@ -22,10 +22,10 @@ API_KEY="YOUR_API_KEY"
 SECRET_KEY="YOUR_SECRET_KEY"
 DOMAIN="example.com"
 CERT_DOMAINS="example.com www.example.com im.example.com"
+#ECC=TRUE
 ```
 
-修改其中的 `API_KEY` 及 `SECRET_KEY` 为您的 [cloudxns api key](https://www.cloudxns.net/AccountManage/apimanage.html) ，修改 `DOMAIN` 为你的根域名，
-修改 `CERT_DOMAINS` 为您要签的域名列表
+修改其中的 `API_KEY` 及 `SECRET_KEY` 为您的 [cloudxns api key](https://www.cloudxns.net/AccountManage/apimanage.html) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表，需要 `ECC` 证书时请取消 `#ECC=TRUE` 的注释。
 
 **运行**
 
@@ -58,9 +58,10 @@ TOKEN="YOUR_API_TOKEN"
 RECORD_LINE="默认"
 DOMAIN="example.com"
 CERT_DOMAINS="example.com www.example.com im.example.com"
+#ECC=TRUE
 ```
 
-修改其中的 `TOKEN` 为您的 [dnspod api token](https://www.dnspod.cn/console/user/security) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表
+修改其中的 `TOKEN` 为您的 [dnspod api token](https://www.dnspod.cn/console/user/security) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表，需要 `ECC` 证书时请取消 `#ECC=TRUE` 的注释。
 
 **运行**
 
