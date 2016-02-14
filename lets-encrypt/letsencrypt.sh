@@ -6,8 +6,9 @@ CONFIG=$1
 ACME_TINY="/tmp/acme_tiny.py"
 
 if [ -f "$CONFIG" ];then
-    . $CONFIG
-    cd $(dirname $CONFIG)
+    . "$CONFIG"
+    DIRNAME=$(dirname "$CONFIG")
+    cd "$DIRNAME"
 else
     echo "ERROR CONFIG."
     exit 1
@@ -20,15 +21,15 @@ DOMAIN_CHAINED_CRT="$KEY_PREFIX.chained.crt"
 
 if [ ! -f "$ACCOUNT_KEY" ];then
     echo "Generate account key..."
-    openssl genrsa 4096 > $ACCOUNT_KEY
+    openssl genrsa 4096 > "$ACCOUNT_KEY"
 fi
 
 if [ ! -f "$DOMAIN_KEY" ];then
     echo "Generate domain key..."
-    if [ $ECC = "TRUE" ];then
-        openssl ecparam -genkey -name secp256r1 | openssl ec -out $DOMAIN_KEY
+    if [ "$ECC" = "TRUE" ];then
+        openssl ecparam -genkey -name secp256r1 | openssl ec -out "$DOMAIN_KEY"
     else
-        openssl genrsa 2048 > $DOMAIN_KEY
+        openssl genrsa 2048 > "$DOMAIN_KEY"
     fi
 fi
 
@@ -44,18 +45,18 @@ if [ ! -f "$OPENSSL_CONF" ];then
     fi
 fi
 
-openssl req -new -sha256 -key $DOMAIN_KEY -subj "/" -reqexts SAN -config <(cat $OPENSSL_CONF <(printf "[SAN]\nsubjectAltName=$DOMAINS")) > $DOMAIN_CSR
+openssl req -new -sha256 -key "$DOMAIN_KEY" -subj "/" -reqexts SAN -config <(cat $OPENSSL_CONF <(printf "[SAN]\nsubjectAltName=%s" "$DOMAINS")) > "$DOMAIN_CSR"
 
 wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py -O $ACME_TINY -o /dev/null
 
 if [ -f "$DOMAIN_CRT" ];then
-    mv $DOMAIN_CRT $DOMAIN_CRT-OLD-$(date +%y%m%d-%H%M%S)
+    mv "$DOMAIN_CRT" "$DOMAIN_CRT-OLD-$(date +%y%m%d-%H%M%S)"
 fi
 
 DOMAIN_DIR="$DOMAIN_DIR/.well-known/acme-challenge/"
-mkdir -p $DOMAIN_DIR
+mkdir -p "$DOMAIN_DIR"
 
-python $ACME_TINY --account-key $ACCOUNT_KEY --csr $DOMAIN_CSR --acme-dir $DOMAIN_DIR > $DOMAIN_CRT
+python $ACME_TINY --account-key "$ACCOUNT_KEY" --csr "$DOMAIN_CSR" --acme-dir "$DOMAIN_DIR" > "$DOMAIN_CRT"
 
 if [ "$?" != 0 ];then
     exit 1
@@ -65,7 +66,7 @@ if [ ! -f "lets-encrypt-x1-cross-signed.pem" ];then
     wget https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem -o /dev/null
 fi
 
-cat $DOMAIN_CRT lets-encrypt-x1-cross-signed.pem > $DOMAIN_CHAINED_CRT
+cat "$DOMAIN_CRT" lets-encrypt-x1-cross-signed.pem > "$DOMAIN_CHAINED_CRT"
 
 
 echo -e "\e[01;32mNew cert: $DOMAIN_CHAINED_CRT has been generated\e[0m"
