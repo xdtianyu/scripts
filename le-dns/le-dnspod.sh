@@ -4,7 +4,8 @@ export CONFIG=$1
 
 if [ -f "$CONFIG" ];then
     . "$CONFIG"
-    cd "$(dirname $CONFIG)" || exit 1
+    DIRNAME=$(dirname "$CONFIG")
+    cd "$DIRNAME" || exit 1
 else
     echo "ERROR CONFIG."
     exit 1
@@ -27,4 +28,8 @@ if [ ! -f "letsencrypt.sh" ];then
     chmod +x letsencrypt.sh
 fi
 
-./letsencrypt.sh -c -k ./dnspod-hook.sh -t dns-01
+if [ "$ECC" = "TRUE" ];then
+    ./letsencrypt.sh -c -k ./dnspod-hook.sh -t dns-01 -a secp384r1
+else
+    ./letsencrypt.sh -c -k ./dnspod-hook.sh -t dns-01
+fi
