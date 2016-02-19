@@ -21,9 +21,10 @@ DOMAIN_KEY="example.com.key"
 DOMAIN_DIR="/var/www/example.com"
 DOMAINS="DNS:example.com,DNS:whatever.example.com"
 #ECC=TRUE
+#LIGHTTPD=TRUE
 ```
 
-执行过程中会自动生成需要的 key 文件。其中 `ACCOUNT_KEY` 为账户密钥， `DOMAIN_KEY` 为域名私钥， `DOMAIN_DIR` 为域名指向的目录，`DOMAINS` 为要签的域名列表， 需要 `ECC` 证书时取消 `#ECC=TRUE` 的注释。
+执行过程中会自动生成需要的 key 文件。其中 `ACCOUNT_KEY` 为账户密钥， `DOMAIN_KEY` 为域名私钥， `DOMAIN_DIR` 为域名指向的目录，`DOMAINS` 为要签的域名列表， 需要 `ECC` 证书时取消 `#ECC=TRUE` 的注释，需要为 `lighttpd` 生成 `pem` 文件时，取消 `#LIGHTTPD=TRUE` 的注释。
 
 **运行**
 
