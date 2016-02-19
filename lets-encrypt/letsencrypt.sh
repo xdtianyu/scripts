@@ -4,11 +4,12 @@
 
 CONFIG=$1
 ACME_TINY="/tmp/acme_tiny.py"
+DOMAIN_KEY=""
 
 if [ -f "$CONFIG" ];then
     . "$CONFIG"
     DIRNAME=$(dirname "$CONFIG")
-    cd "$DIRNAME"
+    cd "$DIRNAME" || exit 1
 else
     echo "ERROR CONFIG."
     exit 1
@@ -16,6 +17,7 @@ fi
 
 KEY_PREFIX="${DOMAIN_KEY%%.*}"
 DOMAIN_CRT="$KEY_PREFIX.crt"
+DOMAIN_PEM="$KEY_PREFIX.pem"
 DOMAIN_CSR="$KEY_PREFIX.csr"
 DOMAIN_CHAINED_CRT="$KEY_PREFIX.chained.crt"
 
@@ -33,7 +35,7 @@ if [ ! -f "$DOMAIN_KEY" ];then
     fi
 fi
 
-echo "Generate CSR...$DOAMIN_CSR"
+echo "Generate CSR...$DOMAIN_CSR"
 
 OPENSSL_CONF="/etc/ssl/openssl.cnf"
 
@@ -68,6 +70,10 @@ fi
 
 cat "$DOMAIN_CRT" lets-encrypt-x1-cross-signed.pem > "$DOMAIN_CHAINED_CRT"
 
+if [ "$LIGHTTPD" = "TRUE" ];then
+    cat "$DOMAIN_KEY" "$DOMAIN_CRT" > "$DOMAIN_PEM"
+    echo -e "\e[01;32mNew pem: $DOMAIN_PEM has been generated\e[0m"
+fi
 
 echo -e "\e[01;32mNew cert: $DOMAIN_CHAINED_CRT has been generated\e[0m"
 
