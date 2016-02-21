@@ -19,7 +19,7 @@ export LC_ALL=en_US.UTF-8
 
 cd "$DOWNLOAD_DIR"
 
-AUDIO=$(youtube-dl -F $URI | grep "DASH audio"|grep "aac"|tail -1|cut -d ' ' -f 1)
+AUDIO=$(youtube-dl -F $URI | grep "DASH audio"|grep "aac\|webm"|tail -1|cut -d ' ' -f 1)
 VIDEO=$(youtube-dl -F $URI | grep "DASH video"|grep "mp4"|tail -1|cut -d ' ' -f 1)
 
 youtube-dl -v -f $VIDEO+$AUDIO -k $URI
