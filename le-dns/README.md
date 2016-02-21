@@ -35,9 +35,9 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **cron 定时任务**
 
-每两个月自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
+每两个月(第一天00:00)自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
 
-`* * * */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
+`0 0 1 */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
 
 ## dnspod
 
@@ -71,6 +71,6 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **cron 定时任务**
 
-每两个月自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
+每两个月(第一天00:00)自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
 
-`* * * */2 * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
+`0 0 1 */2 * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
