@@ -71,6 +71,10 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **cron 定时任务**
 
-每两个月(第一天00:00)自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
+如果证书过期时间不少于30天， [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh) 脚本会自动忽略更新，所以至少需要29天运行一次更新。
 
-`0 0 1 */2 * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
+每隔20天(每个月的5号和25号)自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
+
+`0 0 5/20 * * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
+
+更详细的 crontab 参数请参考 [crontab.guru](http://crontab.guru/) 进行自定义
