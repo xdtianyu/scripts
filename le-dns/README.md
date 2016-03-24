@@ -35,9 +35,13 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **cron 定时任务**
 
-每两个月(第一天00:00)自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
+如果证书过期时间不少于30天， [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh) 脚本会自动忽略更新，所以至少需要29天运行一次更新。
 
-`0 0 1 */2 * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
+每隔20天(每个月的2号和22号)自动更新一次证书，可以在 `le-cloudxns.sh` 脚本最后加入 service nginx reload等重新加载服务。
+
+`0 0 2/20 * * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
+
+更详细的 crontab 参数请参考 [crontab.guru](http://crontab.guru/) 进行自定义
 
 ## dnspod
 
@@ -54,14 +58,15 @@ chmod +x le-dnspod.sh
 `dnspod.conf` 文件内容
 
 ```
-TOKEN="YOUR_API_TOKEN"
+TOKEN="YOUR_TOKEN_ID,YOUR_API_TOKEN"
 RECORD_LINE="默认"
 DOMAIN="example.com"
 CERT_DOMAINS="example.com www.example.com im.example.com"
 #ECC=TRUE
 ```
 
-修改其中的 `TOKEN` 为您的 [dnspod api token](https://www.dnspod.cn/console/user/security) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表，需要 `ECC` 证书时请取消 `#ECC=TRUE` 的注释。
+修改其中的 `TOKEN` 为您的 [dnspod api token](https://www.dnspod.cn/console/user/security) ，注意格式为`123456,556cxxxx`。
+修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表，需要 `ECC` 证书时请取消 `#ECC=TRUE` 的注释。
 
 **运行**
 
