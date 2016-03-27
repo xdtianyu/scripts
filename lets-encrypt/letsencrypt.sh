@@ -64,11 +64,11 @@ if [ "$?" != 0 ];then
     exit 1
 fi
 
-if [ ! -f "lets-encrypt-x1-cross-signed.pem" ];then
-    wget https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem -o /dev/null
+if [ ! -f "lets-encrypt-x3-cross-signed.pem" ];then
+    wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem -o /dev/null
 fi
 
-cat "$DOMAIN_CRT" lets-encrypt-x1-cross-signed.pem > "$DOMAIN_CHAINED_CRT"
+cat "$DOMAIN_CRT" lets-encrypt-x3-cross-signed.pem > "$DOMAIN_CHAINED_CRT"
 
 if [ "$LIGHTTPD" = "TRUE" ];then
     cat "$DOMAIN_KEY" "$DOMAIN_CRT" > "$DOMAIN_PEM"
