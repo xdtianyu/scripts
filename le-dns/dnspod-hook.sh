@@ -15,4 +15,8 @@ function deploy_cert {
     local DOMAIN="${1}" KEYFILE="${2}" CERTFILE="${3}" CHAINFILE="${4}"
 }
 
+function unchanged_cert {
+    local DOMAIN="${1}" KEYFILE="${2}" CERTFILE="${3}" FULLCHAINFILE="${4}" CHAINFILE="${5}"
+}
+
 HANDLER=$1; shift; $HANDLER $@
