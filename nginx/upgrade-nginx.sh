@@ -6,15 +6,15 @@ OLD_VERSION=$(nginx -v 2>&1|cut -d '/' -f 2)
 SSL_VERSION="1.0.2g"
 ZLIB_VERSION="1.2.8"
 
-cd
+cd || exit 1
 
 if [ -d "nginx" ]; then
     echo "mv nginx nginx-$OLD_VERSION"
-    mv nginx nginx-$OLD_VERSION
+    mv nginx "nginx-$OLD_VERSION"
 fi
 
 mkdir nginx
-cd nginx
+cd nginx || exit 1
 
 # Download and extract nginx
 wget http://nginx.org/download/nginx-$VERSION.tar.gz
@@ -29,12 +29,12 @@ wget http://zlib.net/zlib-$ZLIB_VERSION.tar.gz
 tar xf zlib-$ZLIB_VERSION.tar.gz
 
 # Delete downloads
-rm *.tar.gz
+rm -- *.tar.gz
 
 # Download ngx_http_substitutions_filter_module
 git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module
 
-cd nginx-$VERSION
+cd "nginx-$VERSION" || exit 1
 
 ./configure \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2' \
@@ -76,20 +76,20 @@ make
 
 echo "Stop service ..."
 service nginx stop
-cd /etc
+cd /etc || exit 1
 
-if [ -d "nginx-$OLD_VERSION" ];then
+if [ -d "nginx-$OLD_VERSION" ]; then
     mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d)"
 fi
 
-mv nginx nginx-$OLD_VERSION
-cd -
+mv nginx "nginx-$OLD_VERSION"
+cd - || exit 1
 
 make install
 
-cd /etc
-mv nginx nginx-$VERSION
-mv nginx-$OLD_VERSION nginx
+cd /etc || exit 1
+mv nginx "nginx-$VERSION"
+mv "nginx-$OLD_VERSION" nginx
 
 echo "Start service ..."
 
