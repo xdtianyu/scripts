@@ -79,7 +79,7 @@ service nginx stop
 cd /etc || exit 1
 
 if [ -d "nginx-$OLD_VERSION" ]; then
-    mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d)"
+    mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d%M%S)"
 fi
 
 mv nginx "nginx-$OLD_VERSION"
