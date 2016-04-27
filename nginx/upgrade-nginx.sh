@@ -1,9 +1,9 @@
 #!/bin/bash
 
-VERSION="1.9.5"
+VERSION="1.10.0"
 OLD_VERSION=$(nginx -v 2>&1|cut -d '/' -f 2)
 
-SSL_VERSION="1.0.2d"
+SSL_VERSION="1.0.2g"
 ZLIB_VERSION="1.2.8"
 
 cd
@@ -77,6 +77,11 @@ make
 echo "Stop service ..."
 service nginx stop
 cd /etc
+
+if [ -d "nginx-$OLD_VERSION" ];then
+    mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d)"
+fi
+
 mv nginx nginx-$OLD_VERSION
 cd -
 
