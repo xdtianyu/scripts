@@ -10,13 +10,13 @@ service nginx stop
 cd /etc || exit 1
 
 if [ -d "nginx-$OLD_VERSION" ];then
-    mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d)"
+    mv "nginx-$OLD_VERSION" "nginx-$OLD_VERSION-$(date +%m%d%M%S)"
 fi
 
 mv nginx "nginx-$OLD_VERSION"
 cd - || exit 1
 
-dpkg -i nginx_"$VERSION"-1_amd64.deb
+dpkg --force-overwrite -i nginx_"$VERSION"-1_amd64.deb
 
 cd /etc || exit 1
 mv nginx "nginx-$VERSION"
