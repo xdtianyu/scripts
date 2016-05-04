@@ -41,6 +41,8 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 `0 0 2/20 * * /etc/nginx/le-cloudxns.sh /etc/nginx/le-cloudxns.conf >> /var/log/le-cloudxns.log 2>&1`
 
+**注意** `ubuntu 16.04` 不能定义 `day of month` 含有开始天数的 `step values`，可以替换命令中的 `2/20` 为 `2,22`。
+
 更详细的 crontab 参数请参考 [crontab.guru](http://crontab.guru/) 进行自定义
 
 ## dnspod
@@ -81,5 +83,7 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 每隔20天(每个月的5号和25号)自动更新一次证书，可以在 `le-dnspod.sh` 脚本最后加入 service nginx reload等重新加载服务。
 
 `0 0 5/20 * * /etc/nginx/le-dnspod.sh /etc/nginx/le-dnspod.conf >> /var/log/le-dnspod.log 2>&1`
+
+**注意** `ubuntu 16.04` 不能定义 `day of month` 含有开始天数的 `step values`，可以替换命令中的 `5/20` 为 `5,25`。
 
 更详细的 crontab 参数请参考 [crontab.guru](http://crontab.guru/) 进行自定义
