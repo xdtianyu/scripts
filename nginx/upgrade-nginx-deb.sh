@@ -10,7 +10,7 @@ OLD_VERSION=$(nginx -v 2>&1|cut -d '/' -f 2)
 
 DEB_FILE="nginx_$VERSION-$(lsb_release -sc)-1_amd64.deb"
 
-wget "https://www.xdty.org/dl/vps/$DEB_FILE"i -O "$DEB_FILE"
+wget "https://www.xdty.org/dl/vps/$DEB_FILE" -O "$DEB_FILE"
 
 if [ "$?" -ne 0 ]; then
     echo "$DEB_FILE download failed!"
