@@ -1,9 +1,16 @@
 #!/bin/bash
 
 VERSION="1.10.0"
+
+if [ ! -z "$1" ]; then
+    VERSION="$1"
+fi
+
 OLD_VERSION=$(nginx -v 2>&1|cut -d '/' -f 2)
 
-wget https://www.xdty.org/dl/vps/nginx_$VERSION-1_amd64.deb -O nginx_$VERSION-1_amd64.deb
+DEB_FILE="nginx_$VERSION-$(lsb_release -sc)-1_amd64.deb"
+
+wget "https://www.xdty.org/dl/vps/nginx_$VERSION-1_amd64.deb -O $DEB_FILE"
 
 echo "Stop service ..."
 service nginx stop
@@ -16,7 +23,7 @@ fi
 mv nginx "nginx-$OLD_VERSION"
 cd - || exit 1
 
-dpkg --force-overwrite -i nginx_"$VERSION"-1_amd64.deb
+dpkg --force-overwrite -i "$DEB_FILE"
 
 cd /etc || exit 1
 mv nginx "nginx-$VERSION"
