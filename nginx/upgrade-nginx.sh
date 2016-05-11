@@ -53,9 +53,18 @@ git clone https://github.com/vozlt/nginx-module-vts \
 
 cd "nginx-$VERSION" || exit 1
 
+U_VERSION=$(lsb_release -rs)
+
+CC_OPT="-g -O2 -fPIE -fstack-protector -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2"
+LD_OPT="-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now"
+
+if [ "$U_VERSION" = "16.04" ];then
+    CC_OPT="-g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2"
+fi
+
 ./configure \
---with-cc-opt='-g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' \
---with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' \
+--with-cc-opt="$CC_OPT" \
+--with-ld-opt="$LD_OPT" \
 --sbin-path=/usr/sbin/nginx \
 --prefix=/usr/share/nginx \
 --conf-path=/etc/nginx/nginx.conf \
