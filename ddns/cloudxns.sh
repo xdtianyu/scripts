@@ -57,7 +57,6 @@ echo "$RESULT"
 if [ "$(printf "%s" "$RESULT"|grep -c -o "message\":\"success\"")" = 1 ];then
     echo "$(date) -- Update success"
     echo "LAST_IP=\"$IP\"" > "$LAST_IP_FILE"
-    curl -k -s https://www.xdty.org/mail.php -X POST -d "event=ip($IP) changed&name=$HOST&email=$EMAIL"
 else
     echo "$(date) -- Update failed"
 fi
