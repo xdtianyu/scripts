@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+qn_access_key = "ACCESS_KEY"
+qn_secret_key = "SECRET_KEY"
+qn_bucket_name = "BUCKET_NAME"
+
+cos_app_id = ""
+cos_bucket_name = ""
+cos_secret_id = ""
+cos_key = ""
+
+targets = ['/var/www/test.json', '/var/www/test_dir']
