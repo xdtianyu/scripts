@@ -8,4 +8,4 @@ echo "$PWD"
 
 cd "$PWD" || exit 1
 
-venv/bin/python kindle.py
+PYTHONIOENCODING=utf-8:surrogateescape venv/bin/python kindle.py
