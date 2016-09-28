@@ -58,6 +58,7 @@ def lookup(book):
             if product.languages:
                 book.languages = list(product.languages)
 
+            book.nodes = []
             for browse_node in product.browse_nodes:
                 node = Node()
                 book.nodes.append(node)
