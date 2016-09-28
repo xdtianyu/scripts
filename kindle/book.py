@@ -28,6 +28,7 @@ class Book:
     publication_date = None
     small_image_url = None
     languages = None
+    nodes = []
 
     def json(self):
         return json.dumps(self, default=lambda o: o.__dict__, indent=2, ensure_ascii=False, sort_keys=True)

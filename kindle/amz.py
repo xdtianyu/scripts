@@ -7,6 +7,7 @@ from urllib.error import HTTPError
 from amazon.api import AmazonAPI
 
 import config
+from node import Node
 
 cache_dir = 'cache/'
 
@@ -56,6 +57,21 @@ def lookup(book):
             book.small_image_url = product.small_image_url
             if product.languages:
                 book.languages = list(product.languages)
+
+            for browse_node in product.browse_nodes:
+                node = Node()
+                book.nodes.append(node)
+                while True:
+                    node.id = browse_node.id
+                    node.name = str(browse_node.name)
+                    if not browse_node.is_category_root:
+                        node.node = Node()
+                        node = node.node
+                        browse_node = browse_node.ancestor
+                    else:
+                        node.is_root = True
+                        break
+
             print('cached: ' + book.item_id + ' -> ' + book.title)
             break
         except HTTPError as e:
