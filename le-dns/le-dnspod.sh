@@ -24,7 +24,7 @@ if [ ! -f "dnspod-hook.sh" ];then
 fi
 
 if [ ! -f "letsencrypt.sh" ];then
-    wget https://github.com/lukas2511/letsencrypt.sh/raw/master/letsencrypt.sh -O letsencrypt.sh -o /dev/null
+    wget https://raw.githubusercontent.com/lukas2511/dehydrated/master/dehydrated -O letsencrypt.sh -o /dev/null
     chmod +x letsencrypt.sh
 fi
 
