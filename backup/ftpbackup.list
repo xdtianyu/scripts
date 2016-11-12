@@ -1,0 +1,15 @@
+files=(
+    "/root/bin/ftpbackup.list"
+    "/root/bin/ftpbackup.sh"
+    "/home/libvirt/images/www.img"
+    "/home/libvirt/images/builder.img"
+    "/home/libvirt/images/redhat7.img"
+    "/home/libvirt/images/ubuntu.img"
+)
+
+dirs=(
+    "root"
+    "etc"
+    "var"
+    "usr"
+)
