@@ -5,9 +5,10 @@ ALL=$1
 TIME=$(date +%F-%H-%M-%S)
 PASSWD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1)
 
-CONF_FILE="$(dirname $0)/backup.conf"
+CONF_FILE="$(dirname "$0")/backup.conf"
 
-if [ -f "$CONF_FILE" ];then
+if [ -f "$CONF_FILE" ]; then
+    # shellcheck source=/dev/null
     source "$CONF_FILE"
 else
     echo "$CONF_FILE not exist."
@@ -21,24 +22,24 @@ fi
 
 ZIP="zip -P $PASSWD"
 
-if [ "$ZIP_COMPRESS" != true ];then
+if [ "$ZIP_COMPRESS" != true ]; then
     ZIP="zip -0 -P $PASSWD"
 fi
 
 # create tmp dir for archive files and dirs
 
-cd /opt
+cd /opt || exit -1
 
 if [ -d 'tmp' ]; then
     rm -r tmp
 fi
 
 mkdir tmp
-cd tmp
+cd tmp || exit -1
 
 # remove old backup files
 
-if [ ! $(find "$TARGET_DIR" -name \*.zip |wc -l) == 0 ]; then
+if [ ! "$(find "$TARGET_DIR" -name \*.zip |wc -l)" == 0 ]; then
     rm "$TARGET_DIR"/*.zip
 fi
 
@@ -48,7 +49,7 @@ if [ -f "$TARGET_DIR/backup_files.zip" ]; then
     rm "$TARGET_DIR/backup_files.zip"
 fi
 
-echo "$(date) --> backup files: ${FILES[@]}" | tee -a "$LOG_FILE"
+echo "$(date) --> backup files: ${FILES[*]}" | tee -a "$LOG_FILE"
 $ZIP "backup_files.zip" "${FILES[@]}"
 mv "backup_files.zip" "$TARGET_DIR/backup-$TIME-backup_files.zip"
 
@@ -91,7 +92,7 @@ fi
 
 # clean tmp dir
 
-cd /opt
+cd /opt || exit -1
 rm -r tmp
 
 #cp /root/Dropbox/*.zip /home/box/backup
