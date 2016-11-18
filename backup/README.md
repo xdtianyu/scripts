@@ -138,7 +138,18 @@ LOG_FILE="/var/log/backup.log"
 ```
 
 # online.net ftp 备份脚本
-
+ 
+## 下载
+ 
+```
+mkdir /root/bin
+cd /root/bin
+ 
+wget https://raw.githubusercontent.com/xdtianyu/scripts/master/backup/ftpbackup.sh
+wget https://raw.githubusercontent.com/xdtianyu/scripts/master/backup/ftpbackup.list
+ 
+chmod +x ftpbackup.sh
+```
 
 ## 配置
 
