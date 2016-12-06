@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# dependencies: bash wireless-tools
+# dependencies: wireless-tools
 
 DIR=$(dirname $0)
 
@@ -8,7 +8,7 @@ source "$DIR/wireless.conf"
 
 WIFI=$(uci get wireless.@wifi-iface[0].ssid)
 
-echo "current wifi: $WIFI"
+echo "$(date) current wifi: $WIFI"
 
 if [ $(iw dev wlan0 scan|grep "$WIFI"|wc -l) -eq 0 ];then
     uci set wireless.@wifi-iface[0].disabled=1
@@ -21,11 +21,11 @@ fi
 for wifi in "${essids[@]}" ; do
     ESSID="${wifi%%:*}"
     PASS="${wifi##*:}"
-    echo "checking: $ESSID ..."
+    echo "$(date) checking: $ESSID ..."
     #echo "$PASS"
 
     if [ $(iw dev wlan0 scan|grep "$ESSID"|wc -l) -ne 0 ];then
-        echo "wifi: $ESSID is detected."
+        echo "$(date) wifi: $ESSID is detected."
 
         if [ "$WIFI" != "$ESSID" ]; then
             uci set wireless.@wifi-device[0].channel="auto"
@@ -41,6 +41,7 @@ for wifi in "${essids[@]}" ; do
             fi
             uci commit
             /etc/init.d/network restart
+            echo "$(date) wifi: $ESSID is updated."
         fi
 
         break
