@@ -23,9 +23,13 @@ target_dir_parent = config["target_dir_parent"]
 target_dir = {"Lossless Music": target_dir_parent + u"/音乐/",
               "BDISO": target_dir_parent + u"/动漫/",
               "BDrip": target_dir_parent + u"/动漫/",
+              "U2-RBD": target_dir_parent + u"/动漫/",
+              "U2-Rip": target_dir_parent + u"/动漫/",
               u"加流重灌": target_dir_parent + u"/动漫/",
               u"外挂结构": target_dir_parent + u"/字幕/",
               "Others": target_dir_parent + u"/其他/",
+              "DVDrip": target_dir_parent + u"/动漫/",
+              "HDTVrip": target_dir_parent + u"/动漫/",
               "DVDISO": target_dir_parent + u"/动漫/"}
 
 headers = {'X-Transmission-Session-Id': '',
@@ -36,7 +40,7 @@ list_payload = '''{"method": "torrent-get", "arguments": {
 
 r = requests.post(url, headers=headers, data=list_payload, verify=False)
 
-soup = BeautifulSoup(r.text)
+soup = BeautifulSoup(r.text, "html.parser")
 code = soup.find("code")
 headers['X-Transmission-Session-Id'] = code.text.split(': ')[1]
 
@@ -62,10 +66,11 @@ for torrent in result["arguments"]["torrents"]:
                 else:
                     location_payload = '''{"method": "torrent-set-location", "arguments": {"move": true, "location": "''' + \
                                        target_dir[seeding["catalog"]].encode('utf8') + \
-                                       seeding["name"].encode('utf8').replace('/', '／') + '''", "ids": [''' + \
+                                       seeding["name"].encode('utf8').replace('/', '／').replace(':', '：') \
+                                       + '''", "ids": [''' + \
                                        str(torrent["id"]) + ''']}}'''
                 print location_payload
                 r = requests.post(url, headers=headers, data=location_payload, verify=False)
                 print r.text
-                time.sleep(1)
+                # time.sleep(1)
                 break
