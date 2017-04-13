@@ -49,7 +49,7 @@ fi
 
 openssl req -new -sha256 -key "$DOMAIN_KEY" -subj "/" -reqexts SAN -config <(cat $OPENSSL_CONF <(printf "[SAN]\nsubjectAltName=%s" "$DOMAINS")) > "$DOMAIN_CSR"
 
-wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py -O $ACME_TINY -o /dev/null
+wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py --no-check-certificate -O $ACME_TINY -o /dev/null
 
 if [ -f "$DOMAIN_CRT" ];then
     mv "$DOMAIN_CRT" "$DOMAIN_CRT-OLD-$(date +%y%m%d-%H%M%S)"
@@ -65,7 +65,7 @@ if [ "$?" != 0 ];then
 fi
 
 if [ ! -f "lets-encrypt-x3-cross-signed.pem" ];then
-    wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem -o /dev/null
+    wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem --no-check-certificate -o /dev/null
 fi
 
 cat "$DOMAIN_CRT" lets-encrypt-x3-cross-signed.pem > "$DOMAIN_CHAINED_CRT"
