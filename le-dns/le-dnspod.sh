@@ -28,6 +28,8 @@ if [ ! -f "letsencrypt.sh" ];then
     chmod +x letsencrypt.sh
 fi
 
+./letsencrypt.sh --register --accept-terms
+
 if [ "$ECC" = "TRUE" ];then
     ./letsencrypt.sh -c -k ./dnspod-hook.sh -t dns-01 -a secp384r1
 else

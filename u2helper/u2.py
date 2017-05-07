@@ -25,7 +25,7 @@ cookies = dict(
 
 r = requests.get(url, cookies=cookies)
 
-soup = BeautifulSoup(r.text)
+soup = BeautifulSoup(r.text, "html.parser")
 
 td_list = soup.find_all('td', {'class': 'rowfollow nowrap'})
 
@@ -52,10 +52,11 @@ for td, table in itertools.izip(td_list, table_list):
 
     u2torrent.id = int(table.find('a').get('href').split('&')[0].split('=')[1])
 
-    info_r = requests.get(info_url + str(u2torrent.id), cookies=cookies)
+    print info_url + str(u2torrent.id)
 
     try:
-        info_soup = BeautifulSoup(info_r.text)
+        info_r = requests.get(info_url + str(u2torrent.id), cookies=cookies)
+        info_soup = BeautifulSoup(info_r.text, "html.parser")
 
         info_name = info_soup.find("span", {'class': 'title'}, text="[name]").parent.find("span", {'class': 'value'})
         u2torrent.folder = info_name.text
@@ -66,9 +67,10 @@ for td, table in itertools.izip(td_list, table_list):
 
         torrents.append(json.JSONDecoder().decode(u2torrent.json()))
         count += 1
-    except AttributeError:
+    except Exception as e:
+        print str(e)
         print "Fetch folder name failed: " + u2torrent.title
-    time.sleep(3)
+    # time.sleep(3)
 
 torrents_dict["count"] = count
 torrents_dict["torrents"] = torrents
