@@ -47,7 +47,7 @@ DOMAINS="DNS:example.com,DNS:whatever.example.com"
 **在 nginx 里添加 ssl 相关的配置**
 
     ssl_certificate     /path/to/cert/example.chained.crt;
-    ssl_certificate_key /path/to/cert/example.key;
+    ssl_certificate_key /path/to/cert/example.com.key;
 
 **cron 定时任务**
 
