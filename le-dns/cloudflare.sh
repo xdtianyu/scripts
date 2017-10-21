@@ -14,11 +14,7 @@ fi
 
 SUB_DOMAIN=${DOMAIN_FULL%$DOMAIN}
 
-if [ -z "$SUB_DOMAIN" ];then
-    HOST="_acme-challenge"
-else
-    HOST="_acme-challenge.${SUB_DOMAIN%.}"
-fi 
+HOST="_acme-challenge.${DOMAIN_FULL}"
 
 # we get them automatically for you
 CF_ZONE_ID=""
@@ -33,7 +29,7 @@ jsonValue() {
 
 getZoneID() {
   CF_ZONE_ID=$(curl -s \
-    -X GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN_NAME}" \
+    -X GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}" \
     -H "X-Auth-Email: ${CF_EMAIL}" \
     -H "X-Auth-Key: ${CF_TOKEN}" \
     -H "Content-Type: application/json"| \

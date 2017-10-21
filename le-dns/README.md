@@ -3,6 +3,49 @@
 
 脚本基于 [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh)，通过调用 dns 服务商接口更新 TXT 记录用于认证，实现快速获取 lets-encrypt 证书。无需root权限，无需指定网站目录及DNS解析
 
+## cloudflare
+
+**下载**
+
+```
+wget https://github.com/xdtianyu/scripts/raw/master/le-dns/le-cloudflare.sh
+wget https://github.com/xdtianyu/scripts/raw/master/le-dns/cloudflare.conf
+chmod +x le-cloudflare.sh
+```
+
+**配置**
+
+`cloudflare.conf` 文件内容
+
+```
+CF_EMAIL="YOUR_API_KEY"
+CF_EMAIL="YOUR_SECRET_KEY"
+DOMAIN="example.com"
+CERT_DOMAINS="example.com www.example.com im.example.com"
+#ECC=TRUE
+```
+
+修改其中的 `CF_EMAIL` 及 `CF_EMAIL` 为您的邮箱和 [cloudflare api key](https://www.cloudflare.com/a/profile) ，修改 `DOMAIN` 为你的根域名，修改 `CERT_DOMAINS` 为您要签的域名列表，需要 `ECC` 证书时请取消 `#ECC=TRUE` 的注释。
+
+**运行**
+
+`./le-cloudflare.sh cloudflare.conf`
+
+最后生成的文件在当前目录的 certs 目录下
+
+**cron 定时任务**
+
+如果证书过期时间不少于30天， [letsencrypt.sh](https://github.com/lukas2511/letsencrypt.sh) 脚本会自动忽略更新，所以至少需要29天运行一次更新。
+
+每隔20天(每个月的2号和22号)自动更新一次证书，可以在 `le-cloudflare.sh` 脚本最后加入 service nginx reload等重新加载服务。
+
+`0 0 2/20 * * /etc/nginx/le-cloudflare.sh /etc/nginx/le-cloudflare.conf >> /var/log/le-cloudflare.log 2>&1`
+
+**注意** `ubuntu 16.04` 不能定义 `day of month` 含有开始天数的 `step values`，可以替换命令中的 `2/20` 为 `2,22`。
+
+更详细的 crontab 参数请参考 [crontab.guru](http://crontab.guru/) 进行自定义
+
+
 ## cloudxns
 
 **下载**
