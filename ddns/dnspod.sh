@@ -39,6 +39,25 @@ dnspod_is_record_updated(){
     fi
 }
 
+parse_json(){    
+	value=`echo $1 | cat test.txt | sed 's/.*"value":"\([0-9.]*\)",.*/\1/g'`  
+	echo $value 
+}
+
+dnspod_is_record_updated2(){
+	options="login_email=${ACCOUNT}&login_password=${PASSWORD}&format=json";
+    out=$(curl -s -k https://dnsapi.cn/Record.List -d "${options}&domain=${DOMAIN}&sub_domain=${SUBDOMAIN}")
+    #echo $out
+    resolve_ip=$(parse_json $out)
+    #current_ip=$(curl -s icanhazip.com)
+    current_ip=$(curl -s ip.xdty.org)
+    echo $resolve_ip
+	echo $current_ip 
+    if [ "$resolve_ip" = "$current_ip" ]; then
+        echo "Record updated."
+        exit 0;
+    fi
+}
 dnspod_domain_get_id(){
 	options="login_email=${ACCOUNT}&login_password=${PASSWORD}";
 	out=$(curl -s -k https://dnsapi.cn/Domain.List -d ${options});
@@ -84,7 +103,7 @@ dnspod_update_record_ip(){
 main(){
 
 	dnspod_load_config $1
-	dnspod_is_record_updated
+	dnspod_is_record_updated2
 	dnspod_domain_get_id
 	dnspod_update_record_ip
 }
