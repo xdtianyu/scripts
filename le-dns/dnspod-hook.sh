@@ -27,12 +27,19 @@ request_failure() {
     local STATUSCODE="${1}" REASON="${2}" REQTYPE="${3}"
 }
 
-exit_hook() {
+function generate_csr {
+    local DOMAIN="${1}" CERTDIR="${2}" ALTNAMES="${3}"
+}
 
-  :
+function startup_hook {
+    :
+}
+
+function exit_hook {
+    :
 }
 
 HANDLER="$1"; shift
-if [[ "${HANDLER}" =~ ^(deploy_challenge|clean_challenge|deploy_cert|unchanged_cert|invalid_challenge|request_failure|exit_hook)$ ]]; then
-  "$HANDLER" "$@"
+if [[ "${HANDLER}" =~ ^(deploy_challenge|clean_challenge|deploy_cert|unchanged_cert|invalid_challenge|request_failure|generate_csr|startup_hook|exit_hook)$ ]]; then
+    "$HANDLER" "$@"
 fi
