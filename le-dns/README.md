@@ -29,7 +29,7 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **野卡证书**
 
-脚本支持野卡证书，请修改 `CERT_DOMAINS` 为 "wild.example.com *.example.com *.sub.example.com" 注意因为野卡证书 `*.sub.example.com` 会使用 `sub.example.com` 做 dns 验证，所以第一个域名不能是野卡的根域名，即 `example.com` 或 `sub.example.com`。注意如果之前使用过脚本，需要更新脚本内容，删除所有 `*.sh` 文件再下载运行脚本。
+脚本支持野卡证书，请修改 `CERT_DOMAINS` 为 "example.com *.example.com sub.example.com *.sub.example.com" 。注意如果之前使用过脚本，需要更新脚本内容，删除所有 `*.sh` 文件再下载运行脚本。
 
 **运行**
 
