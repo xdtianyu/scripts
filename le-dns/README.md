@@ -33,7 +33,7 @@ CERT_DOMAINS="example.com www.example.com im.example.com"
 
 **运行**
 
-`./le-cloudflare.sh cloudflare.conf`
+`./le-cloudflare.sh ./cloudflare.conf`
 
 最后生成的文件在当前目录的 certs 目录下
 

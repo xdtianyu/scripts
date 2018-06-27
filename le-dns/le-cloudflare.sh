@@ -29,9 +29,9 @@ if [ ! -f "letsencrypt.sh" ];then
 fi
 
 if [ "$ECC" = "TRUE" ];then
-    ./letsencrypt.sh -c -k ./cloudflare-hook.sh -t dns-01 -a secp384r1
+    ./letsencrypt.sh --accept-terms -c -k ./cloudflare-hook.sh -t dns-01 -a secp384r1
 else
-    ./letsencrypt.sh -c -k ./cloudflare-hook.sh -t dns-01
+    ./letsencrypt.sh --accept-terms -c -k ./cloudflare-hook.sh -t dns-01
 fi
 
-chown -R www-data:www-data certs
+chown -R $USER:$USER certs
