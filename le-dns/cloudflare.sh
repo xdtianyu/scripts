@@ -80,7 +80,10 @@ updateDomain() {
 }
 
 getZoneID
-getDomainID
+
+if [ -z "$ALWAYS_CREATE_DOMAIN" ]; then
+    getDomainID
+fi
 
 if [ -z "$CF_DOMAIN_ID" ];then
     createDomain
