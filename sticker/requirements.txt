@@ -1,5 +1,5 @@
 lxml == 3.5.0
 requests == 2.9.1
 urllib3 == 1.13.1
-Pillow == 3.3.1
+Pillow == 9.3.0
 beautifulsoup4 == 4.5.1
